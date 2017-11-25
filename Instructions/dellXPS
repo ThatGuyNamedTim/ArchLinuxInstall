@@ -1,4 +1,4 @@
-﻿to do 
+﻿to do
     terminal theme
     vim color scheme
     atom extensions
@@ -21,30 +21,30 @@ gdm for login
 
 First Steps:
     https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)
-        fix some of the ACPI errors     
-            i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_backlight=native acpi_osi=Linux 
-        
-        touchpad 
-            settings -> devices -> trackpad -> tap to click 
-            settings -> devices -> trackpad -> natural scrolling 
-        
+        fix some of the ACPI errors
+            i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_backlight=native acpi_osi=Linux
+
+        touchpad
+            settings -> devices -> trackpad -> tap to click
+            settings -> devices -> trackpad -> natural scrolling
+
         shortcuts
-            set hide all windows as super+d 
+            set hide all windows as super+d
             cntl alt t  = gnome-terminal
-        
+
         install
-            pacman -Syu git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim
-            
-            eclipse 
+            pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim
+
+            eclipse
                 https://wiki.archlinux.org/index.php/eclipse
-            
+
             matlab
                 https://wiki.archlinux.org/index.php/matlab
-            
+
             sass
                 PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
                 sudo gem install sass --no-user-install
-            
+
             prolog????
             vmware???
             dronekit???
@@ -61,7 +61,7 @@ atom
 configure git
     git config --global user.name "ThatGuyNamedTim"
     git config --global user.email "tim.j.thoresen@example.com"
-    
+
 
 
 Extensions
@@ -69,22 +69,22 @@ Extensions
     Alternate-tab
     user themes
 
-AUR install 
+AUR install
     Yaourt
         firefox
         chrome
-        ttf-ms-fonts	
+        ttf-ms-fonts
         icons: papirus icon theme
             make folders red
             red mountain background
         applications: arc theme darker
         shell: arc-dark
-        terminal color 
+        terminal color
             https://github.com/denysdovhan/one-gnome-terminal
         dronekit
         cursor: capitaine-cursors with customized move stuff
 
-internet 
+internet
     systemctl enable NetworkManager.service
 
 ~/vimrc -----------------------------------
@@ -96,7 +96,7 @@ command Q q "allow caps
 
 syntax on "nice coloring of syntax
 set number "adds line numbers
-set expandtab "spaces for tabs 
+set expandtab "spaces for tabs
 set sw=4 "default to tabstop
 set tabstop=4 "visual spaces per tab
 set softtabstop=4 "tab spaces while editing
@@ -111,4 +111,3 @@ set termguicolors
 colorscheme PaperColor
 set background=dark
 ---------------------------------------------
-
