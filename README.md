@@ -40,3 +40,5 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
   * Fix possible backlight issues:  
     `echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf`
 * Optimize Battery with Powertop
+  `sudo echo $'[Unit]\nDescription=Powertop tunings\n\n[Service]\nExecStart=/usr/bin/powertop --auto-tune\nRemainAfterExit=true\n\n[Install]\nWantedBy=multi-user.target' >> /etc/systemd/system/powertop.service`
+  `systemctl enable powertop`
