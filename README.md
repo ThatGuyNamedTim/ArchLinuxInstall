@@ -26,7 +26,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 ## Essential Setup
 * Install some basic software
 ```
-pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim
+pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim wget curl
 ```
 * Fix some bugs
   * General bugs
@@ -77,9 +77,15 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
   * user themes
 * Arch User Repositories Install
     * Yaourt
-    * firefox
-    * chrome
-    * ttf-ms-fonts
+        ```
+        git clone https://aur.archlinux.org/yaourt.git; cd yaourt; makepkg -sic; cd ..; rm -rf yaourt
+        ```
+    * firefox   
+      `yaourt firefox-esr-bin`
+    * chrome  
+      `yaourt google-chrome`
+    * ttf-ms-fonts   
+      `yaourt ttf-ms-fonts`
     * icons: papirus icon theme
       * make folders red
       * red mountain background
