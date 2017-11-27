@@ -64,7 +64,10 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       * (enable) Hide all normal windows : super + D
       * Open Terminal
         * command: gnome-terminal
-        * shortcut: shift+space
+        * shortcut: ctrl + space
+      * Process Manager
+        * command: gnome-system-monitor
+        * shortcut: ctl + alt + delete
 * Git configuration
   * git config --global user.name "USERNAME"
   * git config --global user.email "email@example.com"
