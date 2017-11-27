@@ -27,7 +27,7 @@ First Steps:
         touchpad
             settings -> devices -> trackpad -> tap to click
             settings -> devices -> trackpad -> natural scrolling
-
+------------------------------------------------------------------------------
         shortcuts
             set hide all windows as super+d
             cntl alt t  = gnome-terminal
