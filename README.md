@@ -86,11 +86,14 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       `yaourt google-chrome`
     * ttf-ms-fonts   
       `yaourt ttf-ms-fonts`
-    * icons: papirus icon theme
+    * icons: papirus icon theme  
+      `yaourt papirus-icon-theme-git`
       * make folders red
       * red mountain background
-    * applications: arc theme darker
-    * shell: arc-dark
+    * applications: arc theme darker  
+      `yaourt gtk-theme-arc-git`
+    * shell: paper?  
+      `yaourt paper-gtk-theme-git`
     * terminal color
     * dronekit
     * cursor: capitaine-cursors with customized move stuff
