@@ -1,6 +1,6 @@
 # Arch Linux Install (Dell XPS 9550)
 
-For reference: https://wiki.archlinux.org/index.php/Dell_XPS_15(9550)
+For reference: https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)
 
 ## Prerequisites
 * Disable secure boot
@@ -26,7 +26,10 @@ powertop xf86-video-intel jpegoptim
 
 ## Essential Setup
 * Fix some bugs
-  * Add the following to the `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`:
+  * General bugs
+    * Add the following to the `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`:
   ```
   i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_backlight=vendor acpi_osi=Linux
   ```
+  * Just use integrated graphics for battery life
+    `sudo echo $'#blacklist the Nvidia 970M\nnvidia\nnouveau' /etc/modprobe.d/noNvidia.conf`
