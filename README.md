@@ -38,3 +38,6 @@ powertop xf86-video-intel jpegoptim
     * `find the bus that works`
       `/usr/share/acpi_call/examples/turn_off_gpu.sh`
       `echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF`
+  * Fix possible backlight issues
+    `echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf`
+* Optimize Battery with Powertop
