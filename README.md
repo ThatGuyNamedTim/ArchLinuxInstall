@@ -33,3 +33,8 @@ powertop xf86-video-intel jpegoptim
   ```
   * Just use integrated graphics for battery life
     `sudo echo $'#blacklist the Nvidia 970M\nnvidia\nnouveau' /etc/modprobe.d/noNvidia.conf`
+    `pacman acpi_call`
+    `modprobe acpi_call`
+    * `find the bus that works`
+      `/usr/share/acpi_call/examples/turn_off_gpu.sh`
+      `echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF`
