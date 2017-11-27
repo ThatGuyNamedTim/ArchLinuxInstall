@@ -1,15 +1,15 @@
 # Arch Linux Install (Dell XPS 9550)
 
-For reference: https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)
+For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)">Arch wiki for Dell XPS9550</a>
 
 ## Prerequisites
 * Disable secure boot
 * Change to AHCI
 * Turn off legacy ROM
 * Get bootable USB
-    * Rufus: https://rufus.akeo.ie/
+    * [Rufus](https://rufus.akeo.ie/)
     * Use DD mode
-    * File: http://mirror.umd.edu/archlinux/iso/2017.11.01/
+    * [File for rufus](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
 
 ## Initial Instalation
 * **f12** to select bootable USB
