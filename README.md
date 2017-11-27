@@ -17,12 +17,13 @@ For reference: https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)
 * .ext4 for root
 * ...(fstab)...
 
+
+
+## Essential Setup
 * Install some basic software
 ```
 pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim
 ```
-
-## Essential Setup
 * Fix some bugs
   * General bugs
     * Add the following to the `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`:
