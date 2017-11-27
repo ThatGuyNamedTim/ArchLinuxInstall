@@ -19,9 +19,7 @@ For reference: https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)
 
 * Install some basic software
 ```
-pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim
-flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool
-powertop xf86-video-intel jpegoptim
+pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim
 ```
 
 ## Essential Setup
@@ -31,12 +29,13 @@ powertop xf86-video-intel jpegoptim
 ```
 i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_backlight=vendor acpi_osi=Linux
 ```
-  * Just use integrated graphics for battery life
-    `sudo echo $'#blacklist the Nvidia 970M\nnvidia\nnouveau' /etc/modprobe.d/noNvidia.conf`  
+  * Just use integrated graphics for battery life  
+    `sudo echo $'#blacklist the Nvidia GPU\nnvidia\nnouveau' /etc/modprobe.d/noNvidia.conf`  
     `pacman acpi_call; modprobe acpi_call`
-    * `find the bus that works`
-      `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
-      `echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF`
-  * Fix possible backlight issues
+    * find the bus that works:   
+    `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
+    * disable Nvidi on boot:   
+    `echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF`
+  * Fix possible backlight issues:  
     `echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf`
 * Optimize Battery with Powertop
