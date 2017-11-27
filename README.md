@@ -7,9 +7,13 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 * Change to AHCI
 * Turn off legacy ROM
 * Get bootable USB
-    * [Rufus](https://rufus.akeo.ie/)
-    * Use DD mode
-    * [File for rufus](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
+* [File for install](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
+    * Windows
+      * [Rufus](https://rufus.akeo.ie/)
+      * Use dd mode
+    * Linux
+      * `dd bs=4M if=/path/to/archlinux.iso of=/dev/FLASHDRIVE status=progress && sync`
+
 
 ## Initial Instalation
 * **f12** to select bootable USB
