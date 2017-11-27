@@ -4,14 +4,14 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 
 ## Prerequisites
 * Disable secure boot
-* Change to AHCI
+* Change to AHCI Mode
 * Turn off legacy ROM
 * Get bootable USB
-* [File for install](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
-    * Windows
+  * [File for install](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
+  * Windows
       * [Rufus](https://rufus.akeo.ie/)
       * Use dd mode
-    * Linux
+  * Linux
       * `dd bs=4M if=/path/to/archlinux.iso of=/dev/FLASHDRIVE status=progress && sync`
 
 
@@ -59,3 +59,29 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
 * Touchpad
     * settings -> devices -> trackpad -> tap to click
     * settings -> devices -> trackpad -> natural scrolling
+* keyboard Shortcuts     
+    * settings -> devices -> keyboard   
+      * (enable) Hide all normal windows : super + D
+      * Open Terminal
+        * command: gnome-terminal
+        * shortcut: shift+space
+* Git configuration
+  * git config --global user.name "USERNAME"
+  * git config --global user.email "email@example.com"
+* Gnome Extensions
+  * Dash to dock
+  * Alternate-tab
+  * user themes
+* Arch User Repositories Install
+    * Yaourt
+    * firefox
+    * chrome
+    * ttf-ms-fonts
+    * icons: papirus icon theme
+      * make folders red
+      * red mountain background
+    * applications: arc theme darker
+    * shell: arc-dark
+    * terminal color
+    * dronekit
+    * cursor: capitaine-cursors with customized move stuff
