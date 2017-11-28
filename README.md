@@ -44,9 +44,13 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       * Find the bus that works:   
     `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
     * disable Nvidi on boot:   
-    `echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF`
+    ````
+    echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF
+    ```
   * Fix possible backlight issues:  
-    `echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf`
+    ```
+    echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf
+    ```
 * Optimize Battery with Powertop
   * Create the system file  
     ```
@@ -88,8 +92,8 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       `yaourt ttf-ms-fonts`
     * icons: papirus icon theme  
       `yaourt papirus-icon-theme-git`
-      * make folders red
-      * red mountain background
+      * Change folder color  
+        `yaourt papirus-folders-git`
     * applications: arc theme darker  
       `yaourt gtk-theme-arc-git`
     * shell: paper?  
@@ -97,3 +101,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     * terminal color
     * dronekit
     * cursor: capitaine-cursors with customized move stuff
+* libreoffice configuration
+  * Spellcheck
+    `sudo pacman -Syu hunspell-en hyphen-en`
+  * Grammar
