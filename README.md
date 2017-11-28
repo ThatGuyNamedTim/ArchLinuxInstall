@@ -93,12 +93,16 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     * icons: papirus icon theme  
       `yaourt papirus-icon-theme-git`
       * Change folder color  
-        `yaourt papirus-folders-git`
+        `yaourt papirus-folders-git`  
+        * papirus-folders -C red
     * applications: arc theme darker  
       `yaourt gtk-theme-arc-git`
     * shell: paper?  
       `yaourt paper-gtk-theme-git`
     * terminal color
+      ```
+      wget https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh && . one-dark.sh; rm one-dark.sh
+      ```
     * dronekit
     * cursor: capitaine-cursors with customized move stuff
 * libreoffice configuration
@@ -120,6 +124,8 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       * platformio-ide-terminal
 
 * vim customization
+  * theme
+
   * vimrc   
 
     ```
