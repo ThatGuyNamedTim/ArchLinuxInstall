@@ -1,4 +1,10 @@
 # To Do
+
+## Improve the install instructions
+ - [ ] fstab
+ - [ ] chroot
+ - [ ] ...
+
 ## Improve ~/.vimrc
   - [ ] choose theme
 
@@ -27,6 +33,7 @@
   - [ ] libreoffice theme
   - [ ] combine icon packs to improve
   - [ ] choose theme for atom terminal plus
+  - [ ] libreoffice grammar checking
 
 ## Errors
   - [ ] fix watchdog error when logging out

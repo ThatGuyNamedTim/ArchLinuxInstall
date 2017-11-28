@@ -44,7 +44,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       * Find the bus that works:   
     `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
     * disable Nvidi on boot:   
-    ````
+    ```
     echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF
     ```
   * Fix possible backlight issues:  
@@ -102,9 +102,9 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     * dronekit
     * cursor: capitaine-cursors with customized move stuff
 * libreoffice configuration
-  * Spellcheck
+  * Spellcheck  
     `sudo pacman -Syu hunspell-en hyphen-en`
-  * Grammar https://wiki.archlinux.org/index.php/LibreOffice
+  * Grammar: https://wiki.archlinux.org/index.php/LibreOffice
   * theme
     * yaourt papirus-libreoffice-theme
 * additional software to install  
@@ -117,7 +117,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     * Packages
       * minimap
       * highlight-selected
-      * termimal-plus
+      * platformio-ide-terminal
 
 * vim customization
   * vimrc   
