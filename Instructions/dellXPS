@@ -57,6 +57,8 @@ First Steps:
 
 atom
     platformio-ide-terminal
+    minimap
+    highlight-selected
 
 configure git
     git config --global user.name "ThatGuyNamedTim"

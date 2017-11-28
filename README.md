@@ -104,4 +104,6 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
 * libreoffice configuration
   * Spellcheck
     `sudo pacman -Syu hunspell-en hyphen-en`
-  * Grammar
+  * Grammar https://wiki.archlinux.org/index.php/LibreOffice
+  * theme
+    * yaourt papirus-libreoffice-theme
