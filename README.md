@@ -19,28 +19,42 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 * **f12** to select bootable USB
 * Partition Drive
   * Find the drive name (sda or nvme0n1 for example): `lsblk`   
-  * Format the Partition  
+  * Create the Partitions
     * Clear the partition table:   
       `gdisk /dev/DRIVE`   
       command: `o`
     * Make a partition for EFI:     
       Command: `n`    
       First sector: `default (press enter)`   
-      Last Sector: `+512MB`   
+      Last Sector: `+512MiB`   
       Hex code: `EF00`    
     * Make a swap partition:   
       Command: `n`
       First sector: `default (press enter)`   
-      Last Sector: `+8GB`    
+      Last Sector: `+8GiB`    
       Hex code: `8200`   
-    * Make partition for main linux system:    
+    * Make partition for main linux filesystem:    
       Command: `n`   
       First sector: `default (press enter)`   
       Last Sector: `default (press enter)`   
       Hex code: `default (press enter)`   
     * Save changes:  
       Command: `w`   
-* .ext4 for root
+  * Format the partitions
+    * The EFI   
+      `mkfs.fat FAT32 /dev/PARTITIONID`
+    * The swap
+      ```
+      mkswap /dev/SWAPPARTITIONID
+      swapon /dev/SWAPPARTITIONID
+      ```
+    * The filesystem
+      `mkfs.ext4 /dev/PARTITIONID`
+  * Mount partitions
+    * Mount filesystem
+      `mnt /dev/PARTITIONFILESYSTEMID`
+    * Mount the EFI partition
+      `mkdir /mnt/boot; mnt /dev/PARTITIONEFIID;`
 * ...(fstab)...
 
 
