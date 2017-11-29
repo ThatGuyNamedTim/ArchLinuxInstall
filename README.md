@@ -10,7 +10,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
   * [File for install](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
   * Windows
       * [Rufus](https://rufus.akeo.ie/)
-      * Use dd mode
+      * Use DD mode
   * Linux
       * `dd bs=4M if=/path/to/archlinux.iso of=/dev/FLASHDRIVE status=progress && sync`
 
@@ -18,7 +18,8 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 ## Initial Instalation
 * **f12** to select bootable USB
 * Partition Drive
-  * Find the drive name (sda or nvme0n1 for example): `lsblk`   
+  * Find the drive name (sda or nvme0n1 for example):   
+    `lsblk`   
   * Create the Partitions
     * Clear the partition table:   
       `gdisk /dev/DRIVE`   
@@ -29,7 +30,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
       Last Sector: `+512MiB`   
       Hex code: `EF00`    
     * Make a swap partition:   
-      Command: `n`
+      Command: `n`   
       First sector: `default (press enter)`   
       Last Sector: `+8GiB`    
       Hex code: `8200`   
@@ -42,19 +43,19 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
       Command: `w`   
   * Format the partitions
     * The EFI   
-      `mkfs.fat FAT32 /dev/PARTITIONID`
+      `mkfs.fat FAT32 /dev/EFI-PARTITION-ID`
     * The swap
       ```
-      mkswap /dev/SWAPPARTITIONID
-      swapon /dev/SWAPPARTITIONID
+      mkswap /dev/SWAP-PARTITION-ID
+      swapon /dev/SWAP-PARTITION-ID
       ```
     * The filesystem
-      `mkfs.ext4 /dev/PARTITIONID`
+      `mkfs.ext4 /dev/FILESYSTEM-PARTITION-ID`
   * Mount partitions
-    * Mount filesystem
-      `mnt /dev/PARTITIONFILESYSTEMID`
-    * Mount the EFI partition
-      `mkdir /mnt/boot; mnt /dev/PARTITIONEFIID;`
+    * Mount filesystem   
+      `mnt /dev/FILESYSTEM-PARTITION-ID`
+    * Mount the EFI partition    
+      `mkdir /mnt/boot; mnt /dev/EFI-PARTITION-ID`
 * ...(fstab)...
 
 
@@ -79,7 +80,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
        `pacman acpi_call; modprobe acpi_call`
       * Find the bus that works:   
     `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
-    * disable Nvidi on boot:   
+    * disable Nvidia on boot:   
     ```
     echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF
     ```
@@ -118,7 +119,11 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
 * Arch User Repositories Install
     * Yaourt
         ```
-        git clone https://aur.archlinux.org/yaourt.git; cd yaourt; makepkg -sic; cd ..; rm -rf yaourt
+        git clone https://aur.archlinux.org/yaourt.git
+        cd yaourt
+        makepkg -sic
+        cd ..
+        rm -rf yaourt
         ```
     * firefox   
       `yaourt firefox-esr-bin`
