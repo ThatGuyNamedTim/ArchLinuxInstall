@@ -18,6 +18,28 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 ## Initial Instalation
 * **f12** to select bootable USB
 * Partition Drive
+  * Find the drive name (sda or nvme0n1 for example): `lsblk`   
+  * Format the Partition  
+    * Clear the partition table:   
+      `gdisk /dev/DRIVE`   
+      command: `o`
+    * Make a partition for EFI:     
+      Command: `n`    
+      First sector: `default (press enter)`   
+      Last Sector: `+512MB`   
+      Hex code: `EF00`    
+    * Make a swap partition:   
+      Command: `n`
+      First sector: `default (press enter)`   
+      Last Sector: `+8GB`    
+      Hex code: `8200`   
+    * Make partition for main linux system:    
+      Command: `n`   
+      First sector: `default (press enter)`   
+      Last Sector: `default (press enter)`   
+      Hex code: `default (press enter)`   
+    * Save changes:  
+      Command: `w`   
 * .ext4 for root
 * ...(fstab)...
 
@@ -103,6 +125,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       ```
       wget https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh && . one-dark.sh; rm one-dark.sh
       ```
+      * select Inconsolata (only latin) as font for theme
     * dronekit
     * cursor: capitaine-cursors with customized move stuff
 * libreoffice configuration
@@ -126,7 +149,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
 * vim customization
   * theme
 
-  * vimrc   
+  * ~/.vimrc   
 
     ```
     command W w "allow caps
