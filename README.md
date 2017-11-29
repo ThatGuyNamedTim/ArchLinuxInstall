@@ -63,9 +63,13 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
     `sed -i 's/^#server/server/' etc/pacman.d/mirrorlist.bak`
   * Choose 20 best servers (This will take a while)   
     `rankmirrors -n 20 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist`
-* ...(fstab)...
-
-
+* Install base packages  
+  `pacstrap /mnt base base-devel`
+* Generate fstab   
+  `genfstab -U /mnt >> /mnt/etc/fstab`
+* Enter Install
+  `arch-chroot /mnt`
+  *
 
 ## Essential Setup
 * Install some basic software
