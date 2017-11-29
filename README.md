@@ -56,6 +56,13 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
       `mnt /dev/FILESYSTEM-PARTITION-ID`
     * Mount the EFI partition    
       `mkdir /mnt/boot; mnt /dev/EFI-PARTITION-ID`
+* Set up mirrors
+  * Make backup   
+    `cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak`
+  * Remove comment #s   
+    `sed -i 's/^#server/server/' etc/pacman.d/mirrorlist.bak`
+  * Choose 20 best servers (This will take a while)   
+    `rankmirrors -n 20 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist`
 * ...(fstab)...
 
 
