@@ -69,12 +69,12 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
   `genfstab -U /mnt >> /mnt/etc/fstab`
 * Enter Install
   `arch-chroot /mnt`
-  *
+
 
 ## Essential Setup
 * Install some basic software
 ```
-pacman -Syu gnome gdm git atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim wget curl
+pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim wget curl
 ```
 * Fix some bugs
   * General bugs
@@ -106,6 +106,22 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     ```
   * Enable it  
     `systemctl enable powertop`
+* Fix bluetooth (audio)
+  * Install     
+    ```
+    pacman -Syu bluez bluez-utils pulseaudio-bluetooth
+    reboot -n
+    ```
+  * Start the service and enable it     
+    `systemctl enable --now bluetooth.service`
+  * Fix for bluetooth audio issues   
+    ```
+    setfacl -m u:gdm:r /usr/bin/pulseaudio
+    sudo pkill pulseaudio
+    pacmd set-card-profile 2 a2dp_sink
+    ```
+
+
 
 ## Personalization
 * Touchpad
