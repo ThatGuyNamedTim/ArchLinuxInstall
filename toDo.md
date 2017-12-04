@@ -1,9 +1,9 @@
 # To Do
 
 ## Improve the install instructions
- - [ ] fstab
+ - [x] fstab
  - [ ] chroot
- - [ ] ...
+ - [ ] Finish all basic inst
 
 ## Improve ~/.vimrc
   - [ ] choose theme
@@ -15,6 +15,7 @@
 ## Fix settings
   - [ ] crash when selecting wifi
   - [ ] fix bluetooth
+  - [ ] fix problem with black screen after pause
 
 ## Install software
   - [ ] matlab

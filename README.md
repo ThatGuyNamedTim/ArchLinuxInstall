@@ -185,7 +185,12 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
   * eclipse IDE
   * sass
   * dronekit
-  * vmware
+  * vmware (https://wiki.archlinux.org/index.php/VMware)
+    * Download from vmware
+    * Make .bundle excutable
+    * run the .bundle as root
+    * location is /etc/init.d
+
   * atom
     * Packages
       * minimap
@@ -196,7 +201,6 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
   * theme
 
   * ~/.vimrc   
-
     ```
     command W w "allow caps
     command Wq wq "allow caps
