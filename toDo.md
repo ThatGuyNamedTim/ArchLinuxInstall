@@ -35,6 +35,9 @@
   - [ ] combine icon packs to improve
   - [ ] choose theme for atom terminal plus
   - [ ] libreoffice grammar checking
+  - [ ] change log in background
+  - [ ] fix icon pack for cursor
+  - [ ] Choose font
 
 ## Errors
   - [ ] fix watchdog error when logging out

@@ -124,6 +124,17 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
 
 
 ## Personalization
+* Initial Stuff in Gnome-Tweak-Tool
+  * Appearance -> Global Dark Theme -> off
+  * Appearance -> Animations -> off
+  * Appearance -> Applications -> Arc-Grey-Darker
+  * Appearance -> Cursor -> ______
+  * Appearance -> Icons -> Papirus
+  * Appearance -> Shell -> Paper
+  * Desktop -> Show Icons -> on
+  * Desktop -> Mounted Volumes -> on
+  * Extensions -> AlternateTab -> on
+  * Extensions -> Dash to Dock -> on
 * Touchpad
     * settings -> devices -> trackpad -> tap to click
     * settings -> devices -> trackpad -> natural scrolling
@@ -196,6 +207,23 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       * minimap
       * highlight-selected
       * platformio-ide-terminal
+* desktop customize
+  * Mounted volumes in Gnome tweak    
+
+  ```
+  ln -s ~/Pictures ~/Desktop/Pictures
+  gio set ~/Desktop/Pictures metadata::custom-icon file:///usr/share/icons/Papirus/48x48/places/folder-black-pictures.svg
+
+  ln -s ~/Documents ~/Desktop/Documents
+  gio set ~/Desktop/Documents metadata::custom-icon file:///usr/share/icons/Papirus/48x48/places/folder-black-documents.svg
+
+  ln -s ~/Downloads ~/Desktop/Downloads
+  gio set ~/Desktop/Downloads metadata::custom-icon file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
+
+  gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'
+  ```
+
+
 
 * vim customization
   * theme
