@@ -203,6 +203,10 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     * location is /etc/init.d
 
   * atom
+    * reset tab size
+      * 4 spaces
+      * soft tab
+    * fix autocomplete
     * Packages
       * minimap
       * highlight-selected
