@@ -38,6 +38,9 @@
   - [ ] change log in background
   - [ ] fix icon pack for cursor
   - [ ] Choose font
+  - [ ] search for file manager
+  - [ ] cgange settings for root? (ex. login screen)
 
 ## Errors
   - [ ] fix watchdog error when logging out
+  - [ ] chrome download bar doesn't work
