@@ -10,7 +10,7 @@ read -p "Drive to install arch linux on: " drive
 read -p "Swap space (y/n): " swapChoice
 if [ swapChoice = "y" ] || [ swapChoice = "y" ]
 then
-  read -p "Swap space size (Ex: 5GiB): "
+  read -p "Swap space size (Ex: 8GiB): "
 fi
 
 read -p "Username: " username
@@ -45,3 +45,5 @@ then
     echo
   done
 fi
+
+# Instalation #################################################################
