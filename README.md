@@ -196,46 +196,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
   * eclipse IDE
   * sass
   * dronekit
-  * vmware (https://wiki.archlinux.org/index.php/VMware)
-    * Download from vmware
-    * Make .bundle excutable
-    * sudo su
-    * run .bundle
-    * File: /etc/systemd/system/vmware.service
-      ```
-      [Unit]
-      Description=VMware daemon
-      Requires=vmware-usbarbitrator.service
-      Before=vmware-usbarbitrator.service
-      After=network.target
-
-      [Service]
-      ExecStart=/etc/init.d/vmware start
-      ExecStop=/etc/init.d/vmware stop
-      PIDFile=/var/lock/subsys/vmware
-      RemainAfterExit=yes
-
-      [Install]
-      WantedBy=multi-user.target
-      ```
-    * File: /etc/systemd/system/vmware-usbarbitrator.service
-      ```
-      [Unit]
-      Description=VMware USB Arbitrator
-      Requires=vmware.service
-      After=vmware.service
-
-      [Service]
-      ExecStart=/usr/bin/vmware-usbarbitrator
-      ExecStop=/usr/bin/vmware-usbarbitrator --kill
-      RemainAfterExit=yes
-
-      [Install]
-      WantedBy=multi-user.target
-      ```
-
-    `systemctl enable vmware`   
-    `systemctl enable vmware-usbarbitrator`
+  * Virtualbox
 
   * atom
     * reset tab size
