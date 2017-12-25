@@ -8,7 +8,7 @@ echo -e
 read -p "Drive to install arch linux on: " drive
 read -p "Swap space (y/n): " swapChoice
 
-if [ swapChoice = "y" ] || s[ swapChoice = "y" ]
+if [ swapChoice == "y" ] || s[ swapChoice == "y" ]
 then
   read -p "Swap space size (Ex: 8GiB): " swapSpace
 fi
@@ -28,7 +28,7 @@ do
 done
 
 read -p "Do you want to set up github (y/n): " githubChoice
-if [ "$githubChoice" = "y" ] || [ "$githubChoice" = "Y" ]
+if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
 then
   read -p "github username: " githubuser
   read -p "github password: " -s githubpass1
@@ -57,7 +57,7 @@ echo $'o\nY\nw\nY' | gdisk /dev/$drive
 echo $'n\n\n+512MiB\EF00\nw\nY' | gdisk /dev/$drive
 
 # Swap space
-if [ swapChoice = "y" ] || s[ swapChoice = "y" ]
+if [ swapChoice == "y" ] || s[ swapChoice == "y" ]
 then
   echo $'n\n\n+${swapSpace}\n8200\nw\nY' | gdisk /dev/$drive
 fi
@@ -67,10 +67,6 @@ echo $'n\n\n\\nw\nY' | gdisk /dev/$drive
 
 # Format partitions
 
-if [ swapChoice = "y" ] || s[ swapChoice = "y" ]
-then
-  echo $'n\n\n+${swapSpace}\n8200\nw\nY' | gdisk /dev/$drive
-fi
 
 
 
