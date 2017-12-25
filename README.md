@@ -24,6 +24,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
     * Clear the partition table:   
       `gdisk /dev/DRIVE`   
       command: `o`
+      confirm: `Y`   
     * Make a partition for EFI:     
       Command: `n`    
       First sector: `default (press enter)`   
@@ -41,6 +42,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
       Hex code: `default (press enter)`   
     * Save changes:  
       Command: `w`   
+      confirm: `Y`   
   * Format the partitions
     * The EFI   
       `mkfs.fat FAT32 /dev/EFI-PARTITION-ID`
@@ -76,29 +78,6 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 ```
 pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim wget curl
 ```
-* Fix some bugs
-  * General bugs
-    * Add the following to the `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`:
-```
-i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_backlight=vendor acpi_osi=Linux
-```
-  * Just use integrated graphics for battery life  
-    ```
-    echo $'#blacklist the Nvidia GPU\nnvidia\nnouveau' | sudo tee -a /etc/modprobe.d/noNvidia.conf
-    ```
-    * Disable the Nvidia GPU
-      * Setup  
-       `pacman acpi_call; modprobe acpi_call`
-      * Find the bus that works:   
-    `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
-    * disable Nvidia on boot:   
-    ```
-    echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF
-    ```
-  * Fix possible backlight issues:  
-    ```
-    echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf
-    ```
 * Optimize Battery with Powertop
   * Create the system file  
     ```
@@ -106,6 +85,32 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     ```
   * Enable it  
     `systemctl enable powertop`
+
+
+## Dell XPS9550 Setup
+  * Fix some bugs
+    * General bugs
+      * Add the following to the `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`:
+  ```
+  i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_backlight=vendor acpi_osi=Linux
+  ```
+    * Just use integrated graphics for battery life  
+      ```
+      echo $'#blacklist the Nvidia GPU\nnvidia\nnouveau' | sudo tee -a /etc/modprobe.d/noNvidia.conf
+      ```
+      * Disable the Nvidia GPU
+        * Setup  
+         `pacman acpi_call; modprobe acpi_call`
+        * Find the bus that works:   
+      `/usr/share/acpi_call/examples/turn_off_gpu.sh`  
+      * disable Nvidia on boot:   
+      ```
+      echo w /proc/acpi/call - - - - \workingBusIDGoesHere._OFF
+      ```
+    * Fix possible backlight issues:  
+      ```
+      echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf
+    ```
 * Fix bluetooth (audio)
   * Install     
     ```
@@ -124,6 +129,14 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
 
 
 ## Personalization
+* font for gsettings
+  ```
+  cd Downloads
+  wget https://github.com/RedHatBrand/Overpass/releases/download/3.0.2/overpass-desktop-fonts.zip
+  unzip overpass-desktop-fonts
+  sudo mv Downloads/overpass-desktop-fonts/overpass/overpass-regular /usr/share/fonts/OTF/
+
+
 * Initial Stuff in Gnome-Tweak-Tool
   * Appearance -> Global Dark Theme -> off
   * Appearance -> Animations -> off
@@ -185,6 +198,14 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
       * select Inconsolata (only latin) as font for theme
     * dronekit
     * cursor: capitaine-cursors with customized move stuff
+      * remove the ones I dislike so it links to default
+      ```
+      sudo cp /usr/share/icons/capitaine-cursors/cursors/dnd-move /usr/share/icons/capitaine-cursors/cursors/fleur
+      sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_bdiag  
+      sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_fdiag
+      sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_hor
+      sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
+      ```
 * libreoffice configuration
   * Spellcheck  
     `sudo pacman -Syu hunspell-en hyphen-en`
@@ -197,7 +218,9 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
   * sass
   * dronekit
   * Virtualbox
-
+    * `pacman -Syu virtualbox`
+    * select package 2
+    * `modprobe vboxdrv`
   * atom
     * reset tab size
       * 4 spaces
@@ -239,6 +262,7 @@ i915.edp_vswing=2 i915.preliminary_hw_support=1 intel_idle.max_cstate=1 acpi_bac
     set number "adds line numbers
     set expandtab "spaces for tabs
     set sw=4 "default to tabstop
+    v
     set tabstop=4 "visual spaces per tab
     set softtabstop=4 "tab spaces while editing
     set wildmenu "visual autocomplete

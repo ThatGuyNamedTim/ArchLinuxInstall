@@ -32,15 +32,17 @@
 ## Personalize
   - [ ] make background for login GDM
   - [ ] libreoffice theme
-  - [ ] combine icon packs to improve
   - [ ] choose theme for atom terminal plus
   - [ ] libreoffice grammar checking
   - [ ] change log in background
-  - [ ] fix icon pack for cursor
-  - [ ] Choose font
+  - [x] fix icon pack for cursor
+  - [x] Choose font
   - [ ] search for file manager
   - [ ] cgange settings for root? (ex. login screen)
 
 ## Errors
   - [ ] fix watchdog error when logging out
   - [ ] chrome download bar doesn't work
+  - [ ] possibly missing firmware for module: aic94xx
+  - [ ] possibly missing firmware for module: wd719x
+  - [ ] Failed to find module 'acpi_call'

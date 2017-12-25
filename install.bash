@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/bin/bash
 
 # User Input ##################################################################
 
@@ -8,9 +7,10 @@ lsblk
 echo -e
 read -p "Drive to install arch linux on: " drive
 read -p "Swap space (y/n): " swapChoice
-if [ swapChoice = "y" ] || [ swapChoice = "y" ]
+
+if [ swapChoice = "y" ] || s[ swapChoice = "y" ]
 then
-  read -p "Swap space size (Ex: 8GiB): "
+  read -p "Swap space size (Ex: 8GiB): " swapSpace
 fi
 
 read -p "Username: " username
@@ -47,3 +47,35 @@ then
 fi
 
 # Instalation #################################################################
+
+# Disk Partition #######
+
+# Clear Table
+echo $'o\nY\nw\nY' | gdisk /dev/$drive
+
+# EFI
+echo $'n\n\n+512MiB\EF00\nw\nY' | gdisk /dev/$drive
+
+# Swap space
+if [ swapChoice = "y" ] || s[ swapChoice = "y" ]
+then
+  echo $'n\n\n+${swapSpace}\n8200\nw\nY' | gdisk /dev/$drive
+fi
+
+# File system
+echo $'n\n\n\\nw\nY' | gdisk /dev/$drive
+
+# Format partitions
+
+if [ swapChoice = "y" ] || s[ swapChoice = "y" ]
+then
+  echo $'n\n\n+${swapSpace}\n8200\nw\nY' | gdisk /dev/$drive
+fi
+
+
+
+
+
+
+# Personalize #################################################################
+  mv
