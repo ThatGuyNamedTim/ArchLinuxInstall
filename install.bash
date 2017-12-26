@@ -39,9 +39,9 @@ then
   while [ "$githubpass1" != "$githubpass2" ]
   do
     printf "Passwords do not match, please try again\n"
-    read p "github password: " -s password1
+    read -p "github password: " -s githubpass1
     echo
-    read -p "Re-enter github password: " -s password2
+    read -p "Re-enter github password: " -s githubpass2
     echo
   done
 fi
@@ -51,20 +51,47 @@ fi
 # Disk Partition #######
 
 # Clear Table
-echo $'o\nY\nw\nY' | gdisk /dev/$drive
+(
+echo "o" #clear
+echo "Y" #confirm
+echo "w" #write changes
+echo "Y" #confirm
+) | gdisk /dev/$drive
 
 # EFI
-echo $'n\n\n+512MiB\EF00\nw\nY' | gdisk /dev/$drive
+(
+echo "n" #new partition
+echo
+echo
+echo "+512MiB" #size
+echo "EF00" #hex code
+echo "w" #write changes
+echo "Y" #confirm
+) | gdisk /dev/$drive
 
 # Swap space
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  echo $'n\n\n+${swapSpace}\n8200\nw\nY' | gdisk /dev/$drive
+  (
+  echo "n" #new partition
+  echo
+  echo
+  echo "+${swapSpace}" #size
+  echo "8200" #hex code
+  echo "w" #write changes
+  echo "Y" #confirm
+  ) | gdisk /dev/$drive
 fi
-
 # File system
-echo $'n\n\n\\nw\nY' | gdisk /dev/$drive
-
+(
+echo "n" #new patition
+echo
+echo
+echo #max size
+echo #default hex code
+echo "w" #write changes
+echo "Y" #confirm
+) | gdisk /dev/$drive
 # Format partitions
 
 
@@ -74,4 +101,3 @@ echo $'n\n\n\\nw\nY' | gdisk /dev/$drive
 
 
 # Personalize #################################################################
-  mv
