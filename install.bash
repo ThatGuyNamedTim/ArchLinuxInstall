@@ -8,7 +8,7 @@ echo -e
 read -p "Drive to install arch linux on: " drive
 read -p "Swap space (y/n): " swapChoice
 
-if [ swapChoice == "y" ] || s[ swapChoice == "y" ]
+if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   read -p "Swap space size (Ex: 8GiB): " swapSpace
 fi
@@ -39,9 +39,9 @@ then
   while [ "$githubpass1" != "$githubpass2" ]
   do
     printf "Passwords do not match, please try again\n"
-    read -ps "github password: " password1
+    read p "github password: " -s password1
     echo
-    read -ps "Re-enter github password: " password2
+    read -p "Re-enter github password: " -s password2
     echo
   done
 fi
@@ -57,7 +57,7 @@ echo $'o\nY\nw\nY' | gdisk /dev/$drive
 echo $'n\n\n+512MiB\EF00\nw\nY' | gdisk /dev/$drive
 
 # Swap space
-if [ swapChoice == "y" ] || s[ swapChoice == "y" ]
+if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   echo $'n\n\n+${swapSpace}\n8200\nw\nY' | gdisk /dev/$drive
 fi

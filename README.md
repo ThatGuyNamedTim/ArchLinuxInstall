@@ -24,7 +24,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
     * Clear the partition table:   
       `gdisk /dev/DRIVE`   
       command: `o`
-      confirm: `Y`   
+      confirm: `Y`   s
     * Make a partition for EFI:     
       Command: `n`    
       First sector: `default (press enter)`   
