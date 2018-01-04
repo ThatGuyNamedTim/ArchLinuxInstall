@@ -218,7 +218,7 @@ pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vi
   * sass
   * dronekit
   * Virtualbox
-    * `pacman -Syu virtualbox`
+    * `pacman -Syu virtualbox virtualbox-guest-utils`
     * select package 2
     * `modprobe vboxdrv`
   * atom

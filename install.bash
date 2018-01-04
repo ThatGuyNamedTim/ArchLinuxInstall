@@ -6,7 +6,7 @@
 
 # Internet Connection
 
-while !(ping -c google.com > /dev/null)
+while !(ping -c 5 google.com > /dev/null)
 do
   read -p "Enter when connected to internet"
 done
@@ -73,7 +73,7 @@ echo "o" #clear
 echo "Y" #confirm
 echo "w" #write changes
 echo "Y" #confirm
-) | gdisk /dev/$drive > dev/null
+) | gdisk /dev/$drive > /dev/null
 
 # EFI
 (
@@ -84,7 +84,7 @@ echo "+512MiB" #size
 echo "EF00" #hex code
 echo "w" #write changes
 echo "Y" #confirm
-) | gdisk /dev/$drive > dev/null
+) | gdisk /dev/$drive > /dev/null
 
 # Swap space
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
@@ -97,7 +97,7 @@ then
   echo "8200" #hex code
   echo "w" #write changes
   echo "Y" #confirm
-  ) | gdisk /dev/$drive > dev/null
+  ) | gdisk /dev/$drive > /dev/null
 fi
 
 # File system
@@ -109,22 +109,42 @@ echo #max size
 echo #default hex code
 echo "w" #write changes
 echo "Y" #confirm
-) | gdisk /dev/$drive > dev/null
+) | gdisk /dev/$drive > /dev/null
 
 # Format partitions #######
 
 # Use lsblk to find the partition IDs (could be sda or nvme0n1)
-efiPartitionID=$(lsblk | grep $drive | sed -n 2p | grep $drive | cut -d" " -f1)
-filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive | cut -d" " -f1)
+efiPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
+                                      | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+mkfs.fat FAT32 /dev/efiPartitionID
+
+filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
+                                      | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+mkfs.ext4 /dev/filePartitionID
 
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   swapPartitionID==$(lsblk | grep $drive | sed -n 4p | grep $drive \
-                                                    | cut -d" " -f1)
+                          | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+  mkswap /dev/swapPartitionID
+  swapon /dev/swapPartitionID
 fi
 
-echo $efiPartitionID
-echo $filePartitionID
-echo $swapPartitionID
+# Mount the filesystem and the bootable partition #######
+mnt /dev/filePartitionID
+mkdir /mnt/boot
+mnt /dev/efiPartitionID
+
+# Set up the mirrors for downloads #######
+rankmirrors -n 10 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist
+
+# Instasll packages
+pacstrap /mnt base base-devel
+
+# Generate fstab for system configuration
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# Enter the installation
+arch-chroot /mnt
 
 # Personalize #################################################################
