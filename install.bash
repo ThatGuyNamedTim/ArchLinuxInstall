@@ -116,18 +116,21 @@ echo "Y" #confirm
 # Use lsblk to find the partition IDs (could be sda or nvme0n1)
 efiPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+echo $efiPartitionID
 mkfs.fat FAT32 /dev/efiPartitionID
 
 filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+echo $filePartitionID
 mkfs.ext4 /dev/filePartitionID
 
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  swapPartitionID==$(lsblk | grep $drive | sed -n 4p | grep $drive \
+  swapPartitionID=$(lsblk | grep $drive | sed -n 4p | grep $drive \
                           | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
   mkswap /dev/swapPartitionID
   swapon /dev/swapPartitionID
+  echo $swapPartitionID
 fi
 
 # Mount the filesystem and the bootable partition #######
@@ -148,3 +151,38 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 
 # Personalize #################################################################
+
+# install software #######
+
+pacman -Syu  gnome gdm git gimp atom unzip gcc mono perl ocaml python pip \
+  ruby vim flashplugin vlc libreoffice gnome-tweak-tool powertop wget curl \
+  cronie sshd ntp
+
+# gnome - the desktop environment
+# gdm - the display manager for gnome
+# git - versioning software
+# gimp - photo editor
+# atom - text editor
+# unzip - command to unzip
+# gcc - compiler
+# mono - compiler
+# perl - programming language
+# ocaml - programming language
+# python - programming language
+# pip - package manager for python
+# ruby - programming language
+# vim - text editor
+# flashplugin - browser plugin
+# vlc - media plater
+# libreoffice - text editor suite
+# gnome-tweak-tool - settings tool for gnome
+# powertop - power manager
+# wget - tool to download
+# curl - tool to download
+# cronie - used for crone jobs
+# sshd - used for secure shell
+# ntp - used to synchronize the clock
+
+# Enable on start up
+sudo systemctl daemon-reload
+systemctl enable ntpd

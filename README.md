@@ -1,4 +1,4 @@
-# Arch Linux Install (Dell XPS 9550)
+    # Arch Linux Install (Dell XPS 9550)
 
 For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)">Arch wiki for Dell XPS9550</a>
 
@@ -76,7 +76,7 @@ For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)"
 ## Essential Setup
 * Install some basic software
 ```
-pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice libinput libinput-gestures gnome-tweak-tool powertop xf86-video-intel jpegoptim wget curl
+pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vim flashplugin vlc libreoffice gnome-tweak-tool powertop xf86-video-intel jpegoptim wget curl
 ```
 * Optimize Battery with Powertop
   * Create the system file  
