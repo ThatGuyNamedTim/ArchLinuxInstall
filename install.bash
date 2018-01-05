@@ -153,13 +153,15 @@ arch-chroot /mnt
 
 # install software #######
 
-pacman -Syu  atom cronie curl flashplugin gcc gdm gimp git gnome \
+pacman -Syu  atom cronie curl dconf dconf-editor flashplugin gcc gdm gimp git gnome \
   gnome-tweak-tool grep libreoffice mono ntp ocaml perl pip powertop \
   python ruby sshd unzip vim vlc wget
 
 # atom - text editor
 # cronie - used for crone jobs
 # curl - tool to download
+# dconf - tool for settings
+# dconf-editor - gui tool for dconf
 # flashplugin - browser plugin
 # gcc - compiler
 # gdm - the display manager for gnome
