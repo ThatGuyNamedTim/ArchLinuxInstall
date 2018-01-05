@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 # User Input ##################################################################
 
 # Internet Connection
@@ -13,7 +11,6 @@ done
 
 # Select the drive to install arch on
 lsblk
-
 echo -e
 read -p "Drive to install arch linux on: " drive
 
@@ -31,6 +28,7 @@ read -p "Password: "  -s password1
 echo
 read -p "Re-enter Password: " -s password2
 echo
+
 while [ "$password1" != "$password2" ]
 do
   printf "Passwords do not match, please try again\n"
@@ -69,46 +67,46 @@ fi
 
 # Clear Table
 (
-echo "o" #clear
-echo "Y" #confirm
-echo "w" #write changes
-echo "Y" #confirm
+echo "o" # clear
+echo "Y" # confirm
+echo "w" # write changes
+echo "Y" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
 # EFI
 (
-echo "n" #new partition
-echo
-echo
-echo "+512MiB" #size
-echo "EF00" #hex code
-echo "w" #write changes
-echo "Y" #confirm
+echo "n" # new partition
+echo # default partition number
+echo # default storage start point
+echo "+512MiB" # size
+echo "EF00" # hex code
+echo "w" # write changes
+echo "Y" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
 # Swap space
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   (
-  echo "n" #new partition
-  echo
-  echo
-  echo "+${swapSpace}" #size
-  echo "8200" #hex code
-  echo "w" #write changes
-  echo "Y" #confirm
+  echo "n" # new partition
+  echo # default partition number
+  echo # default storage start point
+  echo "+${swapSpace}" # size
+  echo "8200" # hex code
+  echo "w" # write changes
+  echo "Y" # confirm
   ) | gdisk /dev/$drive > /dev/null
 fi
 
 # File system
 (
-echo "n" #new patition
-echo
-echo
-echo #max size
-echo #default hex code
-echo "w" #write changes
-echo "Y" #confirm
+echo "n" # new patition
+echo # default partition number
+echo # default storage start point
+echo # max size
+echo # default hex code
+echo "w" # write changes
+echo "Y" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
 # Format partitions #######
@@ -116,14 +114,14 @@ echo "Y" #confirm
 # Use lsblk to find the partition IDs (could be sda or nvme0n1)
 efiPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-echo $efiPartitionID
-mkfs.fat FAT32 /dev/efiPartitionID
-
 filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-echo $filePartitionID
-mkfs.ext4 /dev/filePartitionID
 
+# Format the partitions
+mkfs.ext4 /dev/filePartitionID
+mkfs.fat FAT32 /dev/efiPartitionID
+
+# Format the swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   swapPartitionID=$(lsblk | grep $drive | sed -n 4p | grep $drive \
@@ -150,6 +148,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Enter the installation
 arch-chroot /mnt
 
+# get s
 # Personalize #################################################################
 
 # install software #######
