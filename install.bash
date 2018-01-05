@@ -154,34 +154,35 @@ arch-chroot /mnt
 
 # install software #######
 
-pacman -Syu  gnome gdm git gimp atom unzip gcc mono perl ocaml python pip \
-  ruby vim flashplugin vlc libreoffice gnome-tweak-tool powertop wget curl \
-  cronie sshd ntp
+pacman -Syu  atom cronie curl flashplugin gcc gdm gimp git gnome \
+  gnome-tweak-tool grep libreoffice mono ntp ocaml perl pip powertop \
+  python ruby sshd unzip vim vlc wget
 
-# gnome - the desktop environment
-# gdm - the display manager for gnome
-# git - versioning software
-# gimp - photo editor
 # atom - text editor
-# unzip - command to unzip
-# gcc - compiler
-# mono - compiler
-# perl - programming language
-# ocaml - programming language
-# python - programming language
-# pip - package manager for python
-# ruby - programming language
-# vim - text editor
-# flashplugin - browser plugin
-# vlc - media plater
-# libreoffice - text editor suite
-# gnome-tweak-tool - settings tool for gnome
-# powertop - power manager
-# wget - tool to download
-# curl - tool to download
 # cronie - used for crone jobs
-# sshd - used for secure shell
+# curl - tool to download
+# flashplugin - browser plugin
+# gcc - compiler
+# gdm - the display manager for gnome
+# gimp - photo editor
+# git - versioning software
+# gnome - the desktop environment
+# gnome-tweak-tool - settings tool for gnome
+# grep - search for a string
+# libreoffice - text editor suite
+# mono - compiler
 # ntp - used to synchronize the clock
+# ocaml - programming language
+# perl - programming language
+# pip - package manager for python
+# powertop - power manager
+# python - programming language
+# ruby - programming language
+# sshd - used for secure shell
+# unzip - command to unzip
+# vim - text editor
+# vlc - media plater
+# wget - tool to download
 
 # Enable on start up
 sudo systemctl daemon-reload
