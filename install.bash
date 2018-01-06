@@ -132,9 +132,9 @@ then
 fi
 
 # Mount the filesystem and the bootable partition #######
-mnt /dev/$filePartitionID
+mount /dev/$filePartitionID
 mkdir /mnt/boot
-mnt /dev/$efiPartitionID
+mount /dev/$efiPartitionID
 
 # Set up the mirrors for downloads #######
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist
