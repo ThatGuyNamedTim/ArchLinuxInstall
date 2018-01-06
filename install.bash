@@ -118,23 +118,23 @@ filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 
 # Format the partitions
-mkfs.ext4 /dev/filePartitionID
-mkfs.fat FAT32 /dev/efiPartitionID
+mkfs.ext4 /dev/$filePartitionID
+mkfs.fat FAT32 /dev/$efiPartitionID
 
 # Format the swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   swapPartitionID=$(lsblk | grep $drive | sed -n 4p | grep $drive \
                           | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-  mkswap /dev/swapPartitionID
-  swapon /dev/swapPartitionID
+  mkswap /dev/$swapPartitionID
+  swapon /dev/$swapPartitionID
   echo $swapPartitionID
 fi
 
 # Mount the filesystem and the bootable partition #######
-mnt /dev/filePartitionID
+mnt /dev/$filePartitionID
 mkdir /mnt/boot
-mnt /dev/efiPartitionID
+mnt /dev/$efiPartitionID
 
 # Set up the mirrors for downloads #######
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist
