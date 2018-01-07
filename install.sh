@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This will install Arch Linux for an EFI system with gdm and the gnome desktop
 # environment
@@ -143,10 +143,10 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # First create the script file with echo commands then make it excecutable
 
 # Downloads
-echo '#!/bin/sh
-pacman -Syu  atom cronie curl dconf dconf-editor flashplugin \
-gcc gdm gimp git gnome \
-gnome-tweak-tool grep libreoffice mono ntp ocaml perl pip powertop \
+echo '#!/bin/bash
+pacman -Syu  atom cronie curl dconf dconf-editor efibootmgr flashplugin \
+gcc gdm gimp git gnome-desktop \
+gnome-tweak-tool grep libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
 python ruby sshd unzip vim virtualbox virtualbox-guest-utils vlc \
 wget' > /mnt/installScript.sh
 
@@ -155,18 +155,22 @@ wget' > /mnt/installScript.sh
 # curl - tool to download
 # dconf - tool for settings
 # dconf-editor - gui tool for dconf
+# efibootmgr - required for efi grub
 # flashplugin - browser plugin
 # gcc - compiler
 # gdm - the display manager for gnome
 # gimp - photo editor
 # git - versioning software
-# gnome - the desktop environment
+# gnome-desktop - the desktop environment
 # gnome-tweak-tool - settings tool for gnome
 # grep - search for a string
 # libreoffice - text editor suite
+# linux-lts - the long term support kernel version
+# linux-lts-headers - the long term support kernel version
 # mono - compiler
 # ntp - used to synchronize the clock
 # ocaml - programming language
+# otf-overpass - a font package
 # perl - programming language
 # pip - package manager for python
 # powertop - power manager
@@ -228,6 +232,11 @@ gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'" > /mnt
 
 # Set up github
 
+# Set up grub
+echo "grub-mkconfig -o /boot/grub/grub.cfg
+grub-install /dev/$drive" >> /mnt/personalize
+
+# Set up github
 if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
 then
   echo "git config --global user.name $githubUsername" >> /mnt/personalize
@@ -258,6 +267,7 @@ colorscheme PaperColor
 set background=dark' > /home/tim/.vimrc" > /mnt/personalize
 
 # Run the script to personalize the installation
+chmod u+x /mnt/personalize
 arch-chroot /mnt /mnt/personalize
 
 # Remove the personalize script

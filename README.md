@@ -1,11 +1,13 @@
-    # Arch Linux Install (Dell XPS 9550)
+    # Arch Linux Install
 
-For reference: <a href="https://wiki.archlinux.org/index.php/Dell_XPS_15_(9550)">Arch wiki for Dell XPS9550</a>
+For reference: <a href="https://wiki.archlinux.org/index.php/installation_guide">Arch wiki install</a>
 
-## Prerequisites
+## Prerequisites (for Dell XPS15 9550)
 * Disable secure boot
 * Change to AHCI Mode
 * Turn off legacy ROM
+
+
 * Get bootable USB
   * [File for install](http://mirror.umd.edu/archlinux/iso/2017.11.01/)
   * Windows
@@ -81,11 +83,25 @@ pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vi
 * Optimize Battery with Powertop
   * Create the system file  
     ```
-    echo $'[Unit]\nDescription=Powertop tunings\n\n[Service]\nExecStart=/usr/bin/powertop --auto-tune\nRemainAfterExit=true\n\n[Install]\nWantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/powertop.service
+    [Unit]
+    Description=Powertop tunings
+
+    [Service]
+    ExecStart=/usr/bin/powertop--auto-tune
+    RemainAfterExit=true
+
+    [Install]
+    WantedBy=multi-user.target
     ```
   * Enable it  
     `systemctl enable powertop`
-
+  * Script to prevent auto-suspend of USB devices
+  ```
+  for file in `ls /sys/bus/usb/devices/*/power/control`
+  do
+      sudo echo 'on' > $file
+  done
+  ```
 
 ## Dell XPS9550 Setup
   * Fix some bugs
@@ -110,20 +126,6 @@ pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vi
     * Fix possible backlight issues:  
       ```
       echo $'[Sleep]\nHibernateState=disk\nHibernateMode=shutdown' >> /etc/systemd/sleep.conf
-    ```
-* Fix bluetooth (audio)
-  * Install     
-    ```
-    pacman -Syu bluez bluez-utils pulseaudio-bluetooth
-    reboot -n
-    ```
-  * Start the service and enable it     
-    `systemctl enable --now bluetooth.service`
-  * Fix for bluetooth audio issues   
-    ```
-    setfacl -m u:gdm:r /usr/bin/pulseaudio
-    sudo pkill pulseaudio
-    pacmd set-card-profile 2 a2dp_sink
     ```
 
 
@@ -165,7 +167,7 @@ pacman -Syu gnome gdm git gimp atom unzip gcc mono perl ocaml python pip ruby vi
   * git config --global user.email "email@example.com"
 * Gnome Extensions
   * Dash to dock
-  * Alternate-tab
+  * Alternate-efibootmgrtab
   * user themes
 * Arch User Repositories Install
     * Yaourt
