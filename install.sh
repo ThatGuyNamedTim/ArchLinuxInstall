@@ -7,10 +7,11 @@
 
 # Internet Connection
 
-while !(ping -c 5 google.com > /dev/null)
-do
-  read -p "Enter when connected to internet"
-done
+if !(ping -c 5 google.com > /dev/null)
+then
+  echo "Please connect to the internet before running this script"
+  exit
+fi
 
 # Select the drive to install arch on
 lsblk
