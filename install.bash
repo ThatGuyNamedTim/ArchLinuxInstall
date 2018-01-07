@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This will install Arch Linux for an EFI system with gdm and the gnome desktop
+# environment
+
 # User Input ##################################################################
 
 # Internet Connection
@@ -59,6 +62,9 @@ then
 fi
 
 # Instalation #################################################################
+
+# Make system clock accurate #######
+timedatectl set-ntp true
 
 # Disk Partition #######
 # First Parition: EFI
@@ -132,30 +138,32 @@ then
 fi
 
 # Mount the filesystem and the bootable partition #######
-mount /dev/$filePartitionID
+mount /dev/$filePartitionID /mnt
 mkdir /mnt/boot
-mount /dev/$efiPartitionID
+mount /dev/$efiPartitionID /mnt/boot
+
+# Install packages
+pacstrap /mnt base base-devel
 
 # Set up the mirrors for downloads #######
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist
 
-# Instasll packages
-pacstrap /mnt base base-devel
-
-# Generate fstab for system configuration
+# Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Enter the installation
+# Enter the installation #######
 arch-chroot /mnt
 
-# get s
+# Timing fixes #######
+# Set the time zone
+
 # Personalize #################################################################
 
 # install software #######
 
-pacman -Syu  atom cronie curl dconf dconf-editor flashplugin gcc gdm gimp git gnome \
-  gnome-tweak-tool grep libreoffice mono ntp ocaml perl pip powertop \
-  python ruby sshd unzip vim vlc wget
+# pacman -Syu  atom cronie curl dconf dconf-editor flashplugin gcc gdm gimp git gnome \
+#  gnome-tweak-tool grep libreoffice mono ntp ocaml perl pip powertop \
+#  python ruby sshd unzip vim vlc wget
 
 # atom - text editor
 # cronie - used for crone jobs
