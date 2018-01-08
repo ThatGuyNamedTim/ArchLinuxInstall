@@ -113,8 +113,9 @@ filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 
 # Format the partitions
+read -p "$filePartitionID" hi
 mkfs.ext4 /dev/$filePartitionID
-mkfs.fat FAT32 /dev/$efiPartitionID
+mkfs.fat FAT32 /dev/$efiPartitionID # ERROR HERE !!!!
 
 # Format the swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
@@ -242,7 +243,7 @@ if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
 then
   echo "git config --global user.name $githubUsername" >> /mnt/personalize
   echo "git config --global user.email $githubEmail" >> /mnt/personalize
-done
+fi
 
 # Create the .vimrc
 echo "echo 'command W w \"allow caps
@@ -272,6 +273,6 @@ chmod u+x /mnt/personalize
 arch-chroot /mnt /mnt/personalize
 
 # Remove the personalize script
-rm /mnt/personalize
+#rm /mnt/personalize
 
 # Enable on start up
