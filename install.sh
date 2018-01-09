@@ -113,7 +113,6 @@ filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 
 # Format the partitions
-read -p "$filePartitionID" hi
 mkfs.ext4 /dev/$filePartitionID
 mkfs.fat FAT32 /dev/$efiPartitionID # ERROR HERE !!!!
 
@@ -230,7 +229,7 @@ ln -s ~/Downloads ~/Desktop/Downloads
 gio set ~/Desktop/Downloads metadata::custom-icon \
 file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
 
-gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'" > /mnt/personalize
+gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'" >> /mnt/personalize
 
 # Set up github
 
@@ -266,7 +265,38 @@ set history=50 \"improves the undo property
 set background=light
 set termguicolors
 colorscheme PaperColor
-set background=dark' > /home/tim/.vimrc" > /mnt/personalize
+set background=dark' > /home/tim/.vimrc" >> /mnt/personalize
+
+# Personalize settings
+echo 'dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true # Turn off natural scrolling
+dconf write /org/gnome/desktop/interface/enable-animations false # no animations
+dconf write /org/gnome/shell/overrides/dynamic-workspaces true # dynamic number of workspaces
+dconf writre /org/gnome/shell/overrides/workspaces-only-on-primary false #wokspaces on mltiple dispalces
+dconf write /org/gnome/desktop/peripherals/touchpad/speed 0.45 # Set trackpad speed
+dconf write /org/gnome/desktop/search-providers/disabled "['org.gnome.Epiphany.desktop']" # Do not search Internet
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type "'suspend'" # set suspend information
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout 900
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'suspend'"
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout 1800
+dconf write /org/gnome/settings-daemon/plugins/power/power-button-action "'suspend'"
+dconf write /org/gnome/desktop/wm/preferences/focus-mode "'click'" # for focusing
+dconf write /org/gnome/desktop/interface/gtk-theme "'Arc-Darker'" # Set application theeme
+dconf write /org/gnome/desktop/interface/cursor-theme "'capitaine-cursors'" # Set cursor theme
+dconf write /org/gnome/desktop/interface/icon-theme "'Papirus'" # Set the icon theme
+dconf write /org/gnome/desktop/background/show-desktop-icons true # show desktop theeme
+dconf write /org/gnome/nautilus/preferences/search-filter-time-type "'last_modified'"
+dconf write /org/gnome/nautilus/desktop/home-icon-visible true # Show home folder
+dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'" # Set fonts
+dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'"
+dconf write /org/gnome/desktop/interface/document-font-name "'Overpass 11'"
+dconf write /org/gnome/desktop/interface/monospace-font-name "'Overpass Mono 11'"
+
+dconf write /org/gnome/desktop/peripherals/touchpad/disable-while-typing true # no trackpad when typing
+
+dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides "{'Gtk/ShellShowsAppMenu': <1>}" # Show application menu top bar
+dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show battery percentage top bar
+
+dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side on window' >> /mnt/personalize
 
 # Run the script to personalize the installation
 chmod u+x /mnt/personalize

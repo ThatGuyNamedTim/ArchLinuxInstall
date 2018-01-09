@@ -2,7 +2,7 @@
 
 ## Improve the install instructions
  - [x] fstab
- - [ ] chroot
+ - [x] chroot
  - [ ] Finish all basic inst
 
 ## Improve ~/.vimrc
@@ -13,8 +13,8 @@
 
 
 ## Fix settings
-  - [ ] crash when selecting wifi
-  - [ ] fix bluetooth
+  - [x] crash when selecting wifi
+  - [x] fix bluetooth
   - [ ] fix problem with black screen after pause
 
 ## Install software
@@ -26,7 +26,6 @@
   - [ ] pdf viewer
 
 ## Backup files
-  - [ ] Use google Drive
   - [ ] External drive
 
 ## Personalize
@@ -37,12 +36,12 @@
   - [ ] change log in background
   - [x] fix icon pack for cursor
   - [x] Choose font
-  - [ ] search for file manager
-  - [ ] cgange settings for root? (ex. login screen)
+  - [x] search for file manager
+  - [ ] change settings for root? (ex. login screen)
 
 ## Errors
   - [ ] fix watchdog error when logging out
-  - [ ] chrome download bar doesn't work
+  - [x] chrome download bar doesn't work
   - [ ] possibly missing firmware for module: aic94xx
   - [ ] possibly missing firmware for module: wd719x
   - [ ] Failed to find module 'acpi_call'
