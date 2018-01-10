@@ -7,7 +7,7 @@
 
 # Internet Connection
 
-if !(ping -c 5 google.com > /dev/null)
+if !(ping -c 2 google.com > /dev/null)
 then
   echo "Please connect to the internet before running this script"
   exit
@@ -144,12 +144,11 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # First create the script file with echo commands then make it excecutable
 
 # Downloads
-echo '#!/bin/bash
-pacman -Syu  atom cronie curl dconf dconf-editor efibootmgr flashplugin \
+arch-chroot /mnt pacman -Syu  atom cronie curl dconf dconf-editor efibootmgr flashplugin \
 gcc gdm gimp git gnome-desktop \
 gnome-tweak-tool grep libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
 python ruby sshd unzip vim virtualbox virtualbox-guest-utils vlc \
-wget' > /mnt/installScript.sh
+wget
 
 # atom - text editor
 # cronie - used for crone jobs
