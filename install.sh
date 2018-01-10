@@ -114,7 +114,7 @@ filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
 
 # Format the partitions
 mkfs.ext4 /dev/$filePartitionID
-mkfs.fat FAT32 /dev/$efiPartitionID # ERROR HERE !!!!
+mkfs.fat -F32 /dev/$efiPartitionID # ERROR HERE !!!!
 
 # Format the swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
@@ -131,14 +131,24 @@ mount /dev/$filePartitionID /mnt
 mkdir /mnt/boot
 mount /dev/$efiPartitionID /mnt/boot
 
+# Set up the mirrors for downloads #######
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+
 # Install packages
 pacstrap /mnt base base-devel
 
-# Set up the mirrors for downloads #######
-rankmirrors -n 10 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist
-
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
+
+# Language  (ENGLISH)
+sed -i 's/^#en_US.UTF-8/en_US.UTF-8' /etc/locale.gen
+locale.gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+export LANG=en_US.UTF-8
+
+# Region
 
 # Run a script in the installation #######
 # First create the script file with echo commands then make it excecutable
