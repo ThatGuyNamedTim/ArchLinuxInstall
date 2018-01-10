@@ -26,6 +26,17 @@ then
   read -p "Swap space size (Ex: 8GiB): " swapSpace
 fi
 
+# Enter Location
+ls /usr/share/zoneinfo
+read -p "Enter Location (As listed): " loc1
+location=$loc1
+if [ -d /usr/share/zoneinfo/$loc ]
+then
+    ls /usr/share/zoneinfo/$loc1
+    read -p "Enter Location (As listed) " loc2
+    location=/usr/share/zoneinfo/${loc1}/$loc2
+fi
+
 # Enter credentials
 read -p "Username: " username
 read -p "Password: "  -s password1
@@ -52,8 +63,6 @@ fi
 
 # Instalation #################################################################
 
-# Make system clock accurate #######
-timedatectl set-ntp true
 
 # Disk Partition #######
 # First Parition: EFI
@@ -143,10 +152,10 @@ pacstrap /mnt base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Language  (ENGLISH)
-sed -i 's/^#en_US.UTF-8/en_US.UTF-8' /etc/locale.gen
-locale.gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-export LANG=en_US.UTF-8
+arch-chroot /mnt sed -i 's/^#en_US.UTF-8/en_US.UTF-8' /etc/locale.gen
+arch-chroot /mnt locale.gen
+arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf
+arch-chroot /mnt export LANG=en_US.UTF-8
 
 # Region
 
@@ -193,6 +202,14 @@ wget
 # virtualbox - guest-utils - a tool for virtual machines
 # vlc - media player
 # wget - tool to download
+
+# Set Location for time
+
+arch-chroot /mnt ln -s $location > /etc/localtime
+arch-chroot /mnt hwclock --systohc --utc
+
+# Set Hostname
+arch-chroot /mnt echo "arch" > /etc/hostname
 
 # Install packages from the AUR
 echo "
