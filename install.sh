@@ -203,6 +203,7 @@ echo 'sed -i 's/^#\s%wheel\sALL=\(ALL\)\sALL$/%wheel\sALL=\(ALL\)\sALL/' /etc/su
 echo 'echo "Defaults rootpw" >> /etc/sudoers.tmp' >> /mnt/archInstall
 
 # Set up bootloader
+echo 'bootctl install' >> /mnt/archInstall
 echo 'echo "title Arch Linux" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
 echo 'echo "linux vmlinuz-linux" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
 if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
@@ -306,19 +307,18 @@ echo 'ln -s ~/Downloads ~/Desktop/Downloads
 gio set ~/Desktop/Downloads metadata::custom-icon \
 file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg' >> /mnt/archInstall
 
-gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'" >> /mnt/personalize
+gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'" >> /mnt/archInstall
 
 # Set up github
 
 # Set up grub
 echo "grub-mkconfig -o /boot/grub/grub.cfg
-grub-install /dev/$drive" >> /mnt/personalize
-
+grub-install /dev/$drive" >> /mnt/archInstall
 # Set up github
 if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
 then
-  echo "git config --global user.name $githubUsername" >> /mnt/personalize
-  echo "git config --global user.email $githubEmail" >> /mnt/personalize
+  echo "git config --global user.name $githubUsername" >> /mnt/archInstall
+  echo "git config --global user.email $githubEmail" >> /mnt/archInstall
 fi
 
 # Create the .vimrc
@@ -373,13 +373,13 @@ dconf write /org/gnome/desktop/peripherals/touchpad/disable-while-typing true # 
 dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides "{'Gtk/ShellShowsAppMenu': <1>}" # Show application menu top bar
 dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show battery percentage top bar
 
-dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side on window' >> /mnt/personalize
+dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side on window' >> /mnt/archInstall
 
 # Run the script to personalize the installation
-chmod u+x /mnt/personalize
-arch-chroot /mnt /mnt/personalize
+arch-chroot chmod u+x /mnt/archInstall
+arch-chroot /mnt /mnt/archInstall
 
 # Remove the personalize script
-#rm /mnt/personalize
+#rm /mnt/archInstall
 
 # Enable on start up
