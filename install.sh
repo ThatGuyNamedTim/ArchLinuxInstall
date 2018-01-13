@@ -36,7 +36,7 @@ location=$loc1
 if [ -d /usr/share/zoneinfo/$loc ]
 then
     ls /usr/share/zoneinfo/$loc1
-    read -p "Enter Location (As listed) " loc2
+    read -p "Enter Location (As listed): " loc2
     location=/usr/share/zoneinfo/${loc1}/$loc2
 fi
 
@@ -150,7 +150,6 @@ then
                           | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
   mkswap /dev/$swapPartitionID
   swapon /dev/$swapPartitionID
-  echo $swapPartitionID
 fi
 
 # Mount the filesystem and the bootable partition #######
@@ -161,7 +160,7 @@ mount /dev/$efiPartitionID /mnt/boot
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+rankmirrors -n 4 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
 # Install base system
 pacstrap /mnt base base-devel
@@ -342,38 +341,38 @@ set history=50 \"improves the undo property
 set background=light
 set termguicolors
 colorscheme PaperColor
-set background=dark' > /home/$username/.vimrc" >> /mnt/personalize
+set background=dark' > /home/$username/.vimrc" >> /mnt/archInstall
 
 # Personalize settings
-echo 'dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true # Turn off natural scrolling
+echo "dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true # Turn off natural scrolling
 dconf write /org/gnome/desktop/interface/enable-animations false # no animations
 dconf write /org/gnome/shell/overrides/dynamic-workspaces true # dynamic number of workspaces
 dconf writre /org/gnome/shell/overrides/workspaces-only-on-primary false #wokspaces on mltiple dispalces
 dconf write /org/gnome/desktop/peripherals/touchpad/speed 0.45 # Set trackpad speed
-dconf write /org/gnome/desktop/search-providers/disabled "['org.gnome.Epiphany.desktop']" # Do not search Internet
-dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type "'suspend'" # set suspend information
+dconf write /org/gnome/desktop/search-providers/disabled \"['org.gnome.Epiphany.desktop']\" # Do not search Internet
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type \"'suspend'\" # set suspend information
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout 900
-dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'suspend'"
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type \"'suspend'\"
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout 1800
-dconf write /org/gnome/settings-daemon/plugins/power/power-button-action "'suspend'"
-dconf write /org/gnome/desktop/wm/preferences/focus-mode "'click'" # for focusing
-dconf write /org/gnome/desktop/interface/gtk-theme "'Arc-Darker'" # Set application theeme
-dconf write /org/gnome/desktop/interface/cursor-theme "'capitaine-cursors'" # Set cursor theme
-dconf write /org/gnome/desktop/interface/icon-theme "'Papirus'" # Set the icon theme
+dconf write /org/gnome/settings-daemon/plugins/power/power-button-action \"'suspend'\"
+dconf write /org/gnome/desktop/wm/preferences/focus-mode \"'click'\" # for focusing
+dconf write /org/gnome/desktop/interface/gtk-theme \"'Arc-Darker'\" # Set application theeme
+dconf write /org/gnome/desktop/interface/cursor-theme \"'capitaine-cursors'\" # Set cursor theme
+dconf write /org/gnome/desktop/interface/icon-theme \"'Papirus'\" # Set the icon theme
 dconf write /org/gnome/desktop/background/show-desktop-icons true # show desktop theeme
-dconf write /org/gnome/nautilus/preferences/search-filter-time-type "'last_modified'"
+dconf write /org/gnome/nautilus/preferences/search-filter-time-type \"'last_modified'\"
 dconf write /org/gnome/nautilus/desktop/home-icon-visible true # Show home folder
-dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'" # Set fonts
-dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'"
-dconf write /org/gnome/desktop/interface/document-font-name "'Overpass 11'"
-dconf write /org/gnome/desktop/interface/monospace-font-name "'Overpass Mono 11'"
+dconf write /org/gnome/desktop/wm/preferences/titlebar-font \"'Overpass 12'\" # Set fonts
+dconf write /org/gnome/desktop/wm/preferences/titlebar-font \"'Overpass 12'\"
+dconf write /org/gnome/desktop/interface/document-font-name \"'Overpass 11'\"
+dconf write /org/gnome/desktop/interface/monospace-font-name \"'Overpass Mono 11'\"
 
 dconf write /org/gnome/desktop/peripherals/touchpad/disable-while-typing true # no trackpad when typing
 
-dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides "{'Gtk/ShellShowsAppMenu': <1>}" # Show application menu top bar
+dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides \"{'Gtk/ShellShowsAppMenu': <1>}\" # Show application menu top bar
 dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show battery percentage top bar
 
-dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side on window' >> /mnt/archInstall
+dconf write /org/gnome/desktop/wm/preferences/button-layout \"'appmenu:minimize,maximize,close'\" # Right side of windows "  >> /mnt/archInstall
 
 # Run the script to personalize the installation
 arch-chroot chmod u+x /mnt/archInstall
