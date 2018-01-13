@@ -170,23 +170,23 @@ pacstrap /mnt base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Language  (ENGLISH)
-arch-chroot /mnt sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
-arch-chroot /mnt locale.gen
-arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf
-arch-chroot /mnt export LANG=en_US.UTF-8
+echo 'sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen' >> /mnt/archInstall
+echo 'locale.gen' >> /mnt/archInstall
+echo 'echo LANG=en_US.UTF-8 > /etc/locale.conf' >> /mnt/archInstall
+echo 'export LANG=en_US.UTF-8' >> /mnt/archInstall
 
 # Region for timing and the hardware clock
 
-arch-chroot /mnt ln -s $location > /etc/localtime
-arch-chroot /mnt hwclock --systohc --utc
+echo 'ln -s $location > /etc/localtime' >> /mnt/archInstall
+echo  'hwclock --systohc --utc' >> /mnt/archInstall
 
 # Set Hostname
-arch-chroot /mnt echo "arch" > /etc/hostname
+echo 'echo "arch" > /etc/hostname' >> /mnt/archInstall
 
 # Set trim, for SSDs
 if [ "$ssd" == "y" ] || [ "$ssd" == "y" ]
 then
-  arch-chroot /mnt systemctl enable fstrim.timer #SUDO?---------------------------------
+  echo 'systemctl enable fstrim.timer' >> /mnt/archInstall #SUDO?---------------------------------
 fi
 
 # Allow use of 32-bit software
@@ -194,38 +194,38 @@ fi
 # arch-chroot /mnt sed -i 's/^#Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf
 
 # Set up root and user information such as password
-arch-chroot /mnt echo $'$rootPassword1\n$rootPassword1'|passwd
-arch-chroot /mnt useradd -m -g users -G wheel,storage,power -s /bin/bash $username
-arch-chroot /mnt echo $'$rootPassword1\n$rootPassword1'|passwd $username
+echo "echo $'$rootPassword1\n$rootPassword1'|passwd" >> /mnt/archInstall
+echo "useradd -m -g users -G wheel,storage,power -s /bin/bash $username" >> /mnt/archInstall
+echo "echo $'$rootPassword1\n$rootPassword1'|passwd $username" >> /mnt/archInstall
 
 # Wheel group for command and need sudo password
-arch-chroot /mnt sed -i 's/^#\s%wheel\sALL=\(ALL\)\sALL$/%wheel\sALL=\(ALL\)\sALL/' /etc/sudoers.tmp
-arch-chroot /mnt echo 'Defaults rootpw' >> /etc/sudoers.tmp
+echo 'sed -i 's/^#\s%wheel\sALL=\(ALL\)\sALL$/%wheel\sALL=\(ALL\)\sALL/' /etc/sudoers.tmp' >> /mnt/archInstall
+echo 'echo "Defaults rootpw" >> /etc/sudoers.tmp' >> /mnt/archInstall
 
 # Set up bootloader
-arch-chroot /mnt echo "title Arch Linux" >> /boot/loader/entries/arch.conf
-arch-chroot /mnt echo "linux vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo 'echo "title Arch Linux" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
+echo 'echo "linux vmlinuz-linux" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
 if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
 then
-  pacman -S intel-ucode
-  arch-chroot /mnt echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
+  echo 'pacman -S intel-ucode' >> /mnt/archInstall
+  echo 'echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
 fi
-arch-chroot /mnt echo "initrd /initranfs-linux.img" >> /boot/loader/entries/arch.conf
-arch-chroot /mnt echo "options root=PARTUUID=$(blkid -o value /dev/$filePartitionID) rw" >> /boot/loader/entries/arch.conf
+echo 'echo "initrd /initranfs-linux.img" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
+echo 'echo "options root=PARTUUID=$(blkid -o value /dev/$filePartitionID) rw" >> /boot/loader/entries/arch.conf' >> /mnt/archInstall
 
 # The networking
-arch-chroot /mnt yes|pacman -S networkmanager
-arch-chroot /mnt systemctl enable NetworkManager.service
-
+echo 'yes|pacman -S networkmanager' >> /mnt/archInstall
+echo 'systemctl enable NetworkManager.service' >> /mnt/archInstall
+echo 'exit' >> /mnt/archInstall
+chroot /mnt chmod u+x /mnt/archInstall
 # Run a script in the installation #######
 # First create the script file with echo commands then make it excecutable
-exit 
 # Downloads
-arch-chroot /mnt pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
+echo 'pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
 gcc gdm gimp git gnome-desktop \
 gnome-tweak-tool grep libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
 python ruby sshd unzip vim virtualbox virtualbox-guest-utils vlc \
-wget
+wget' >> /mnt/archInstall
 
 # atom - text editor
 # bash-completion - makes autocomplete better
@@ -269,21 +269,21 @@ cd yaourt
 makepkg -sic
 cd ..
 rm -rf yaourt
-yaourt google-chrome
-yaourt papirus-icon-theme-git
-yaourt papirus-folders-git
+yaourt --noconfirm google-chrome
+yaourt --noconfirm papirus-icon-theme-git
+yaourt --noconfirm papirus-folders-git
 papirus-folders -C black
-yaourt gtk-theme-arc-grey
-yaourt ttf-ms-fonts
+yaourt --noconfirm gtk-theme-arc-grey
+yaourt --noconfirm ttf-ms-fonts
 
-yaourt capitaine-cursors
+yaourt --noconfirm capitaine-cursors
 sudo cp /usr/share/icons/capitaine-cursors/cursors/dnd-move \
 /usr/share/icons/capitaine-cursors/cursors/fleur
 sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_bdiag
 sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_fdiag
 sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_hor
 sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
-" >> /mnt/personalize
+" >> /mnt/archInstall
 # Yaourt is a manager for the AUR
 # Google is a browser
 # Papirus have the best icons
@@ -294,17 +294,17 @@ sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
 # edit the cursor icons to look better
 
 # Create icons for the desktop
-echo " ln -s ~/Pictures ~/Desktop/Pictures
+echo 'ln -s ~/Pictures ~/Desktop/Pictures
 gio set ~/Desktop/Pictures metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/folder-black-pictures.svg
+file:///usr/share/icons/Papirus/48x48/places/folder-black-pictures.svg' >> /mnt/archInstall
 
-ln -s ~/Documents ~/Desktop/Documents
+echo 'ln -s ~/Documents ~/Desktop/Documents
 gio set ~/Desktop/Documents metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/folder-black-documents.svg
+file:///usr/share/icons/Papirus/48x48/places/folder-black-documents.svg' >> /mnt/archInstall
 
-ln -s ~/Downloads ~/Desktop/Downloads
+echo 'ln -s ~/Downloads ~/Desktop/Downloads
 gio set ~/Desktop/Downloads metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
+file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg' >> /mnt/archInstall
 
 gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'" >> /mnt/personalize
 
