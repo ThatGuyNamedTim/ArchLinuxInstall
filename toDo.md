@@ -4,6 +4,7 @@
  - [x] fstab
  - [x] chroot
  - [ ] Finish all basic inst
+ - [ ] Do the 32 bit allowance 
 
 ## Improve ~/.vimrc
   - [ ] choose theme

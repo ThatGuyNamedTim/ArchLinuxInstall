@@ -2,7 +2,8 @@
 
 # This will install Arch Linux for an EFI system with gdm and the gnome desktop
 # environment
-
+# https://wiki.archlinux.org/index.php/installation_guide
+# https://www.youtube.com/watch?v=iF7Y8IH5A3M
 # User Input ##################################################################
 
 # Internet Connection
@@ -17,6 +18,8 @@ fi
 lsblk
 echo -e
 read -p "Drive to install arch linux on: " drive
+read -p "Is this drive a ssd (y/n): " ssd
+read -p "Does this machine have an intel cpu (y/n): " intelCPU
 
 # Will there be a swap space
 read -p "Swap space (y/n): " swapChoice
@@ -37,19 +40,34 @@ then
     location=/usr/share/zoneinfo/${loc1}/$loc2
 fi
 
+
 # Enter credentials
-read -p "Username: " username
-read -p "Password: "  -s password1
+read -p "Password for root: "  -s rootPassword1
 echo
-read -p "Re-enter Password: " -s password2
+read -p "Re-enter root Password: " -s rootPassword2
 echo
 
-while [ "$password1" != "$password2" ]
+while [ "$rootPassword1" != "$rootPassword2" ]
+do
+  echo "Passwords do not match, please try again"
+  read -p "Password for root: "  -s rootPassword1
+  echo
+  read -p "Re-enter root Password: " -s rootPassword2
+  echo
+done
+
+read -p "Username: " username
+read -p "Password: "  -s userPassword1
+echo
+read -p "Re-enter Password: " -s userPassword2
+echo
+
+while [ "$userPassword1" != "$userPassword2" ]
 do
   printf "Passwords do not match, please try again\n"
-  read -p "Password: " -s password1
+  read -p "Password: " -s userPassword1
   echo
-  read -p "Re-enter Password: " -s password2
+  read -p "Re-enter Password: " -s userPassword2
   echo
 done
 
@@ -145,31 +163,72 @@ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
-# Install packages
+# Install base system
 pacstrap /mnt base base-devel
 
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Language  (ENGLISH)
-arch-chroot /mnt sed -i 's/^#en_US.UTF-8/en_US.UTF-8' /etc/locale.gen
+arch-chroot /mnt sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 arch-chroot /mnt locale.gen
 arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf
 arch-chroot /mnt export LANG=en_US.UTF-8
 
-# Region
+# Region for timing and the hardware clock
+
+arch-chroot /mnt ln -s $location > /etc/localtime
+arch-chroot /mnt hwclock --systohc --utc
+
+# Set Hostname
+arch-chroot /mnt echo "arch" > /etc/hostname
+
+# Set trim, for SSDs
+if [ "$ssd" == "y" ] || [ "$ssd" == "y" ]
+then
+  arch-chroot /mnt systemctl enable fstrim.timer #SUDO?---------------------------------
+fi
+
+# Allow use of 32-bit software
+# arch-chroot /mnt sed -i 's/^#\[multilib\]/\[multilib\]' /etc/pacman.conf
+# arch-chroot /mnt sed -i 's/^#Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf
+
+# Set up root and user information such as password
+arch-chroot /mnt echo $'$rootPassword1\n$rootPassword1'|passwd
+arch-chroot /mnt useradd -m -g users -G wheel,storage,power -s /bin/bash $username
+arch-chroot /mnt echo $'$rootPassword1\n$rootPassword1'|passwd $username
+
+# Wheel group for command and need sudo password
+arch-chroot /mnt sed -i 's/^#\s%wheel\sALL=\(ALL\)\sALL$/%wheel\sALL=\(ALL\)\sALL/' /etc/sudoers.tmp
+arch-chroot /mnt echo 'Defaults rootpw' >> /etc/sudoers.tmp
+
+# Set up bootloader
+arch-chroot /mnt echo "title Arch Linux" >> /boot/loader/entries/arch.conf
+arch-chroot /mnt echo "linux vmlinuz-linux" >> /boot/loader/entries/arch.conf
+if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
+then
+  pacman -S intel-ucode
+  arch-chroot /mnt echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
+fi
+arch-chroot /mnt echo "initrd /initranfs-linux.img" >> /boot/loader/entries/arch.conf
+arch-chroot /mnt echo "options root=PARTUUID=$(blkid -o value /dev/$filePartitionID) rw" >> /boot/loader/entries/arch.conf
+
+# The networking
+arch-chroot /mnt yes|pacman -S networkmanager
+arch-chroot /mnt systemctl enable NetworkManager.service
 
 # Run a script in the installation #######
 # First create the script file with echo commands then make it excecutable
-
+exit 
 # Downloads
-arch-chroot /mnt pacman -Syu  atom cronie curl dconf dconf-editor efibootmgr flashplugin \
+arch-chroot /mnt pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
 gcc gdm gimp git gnome-desktop \
 gnome-tweak-tool grep libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
 python ruby sshd unzip vim virtualbox virtualbox-guest-utils vlc \
 wget
 
 # atom - text editor
+# bash-completion - makes autocomplete better
 # cronie - used for crone jobs
 # curl - tool to download
 # dconf - tool for settings
@@ -202,14 +261,6 @@ wget
 # virtualbox - guest-utils - a tool for virtual machines
 # vlc - media player
 # wget - tool to download
-
-# Set Location for time
-
-arch-chroot /mnt ln -s $location > /etc/localtime
-arch-chroot /mnt hwclock --systohc --utc
-
-# Set Hostname
-arch-chroot /mnt echo "arch" > /etc/hostname
 
 # Install packages from the AUR
 echo "
@@ -291,7 +342,7 @@ set history=50 \"improves the undo property
 set background=light
 set termguicolors
 colorscheme PaperColor
-set background=dark' > /home/tim/.vimrc" >> /mnt/personalize
+set background=dark' > /home/$username/.vimrc" >> /mnt/personalize
 
 # Personalize settings
 echo 'dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true # Turn off natural scrolling
