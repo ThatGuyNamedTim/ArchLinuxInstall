@@ -3,8 +3,8 @@
 ## Improve the install instructions
  - [x] fstab
  - [x] chroot
- - [ ] Finish all basic inst
- - [ ] Do the 32 bit allowance 
+ - [x] Finish all basic inst
+ - [ ] Do the 32 bit allowanced
 
 ## Improve ~/.vimrc
   - [ ] choose theme
@@ -34,11 +34,9 @@
   - [ ] libreoffice theme
   - [ ] choose theme for atom terminal plus
   - [ ] libreoffice grammar checking
-  - [ ] change log in background
   - [x] fix icon pack for cursor
   - [x] Choose font
   - [x] search for file manager
-  - [ ] change settings for root? (ex. login screen)
 
 ## Errors
   - [ ] fix watchdog error when logging out
