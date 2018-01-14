@@ -52,7 +52,7 @@ yes|pacman -S networkmanager
 systemctl enable NetworkManager.service
 
 # Downloads
-pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
+yes|pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
 gcc gdm gimp git gnome-desktop \
 gnome-tweak-tool grep hunspell-en hyphen-en libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
 python ruby sshd unzip vim virtualbox virtualbox-guest-utils vlc \

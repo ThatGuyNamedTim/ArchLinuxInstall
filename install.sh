@@ -192,4 +192,5 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Run personalize to share variables
 wget -O personalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinux/master/personalize?token=AXmD-dSLpUA8HR5KB1JClr957j5ibBFvks5aZQ8TwA%3D%3D
 mv personalize.sh /mnt
-arch-chroot /mnt personalize.sh
+arch-chroot /mnt chmod u+x ./personalize
+arch-chroot /mnt ./personalize.sh
