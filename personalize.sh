@@ -41,7 +41,7 @@ echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux vmlinuz-linux" >> /boot/loader/entries/arch.conf
 if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
 then
-  pacman -S intel-ucode
+  yes|pacman -S intel-ucode
   echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 fi
 echo "initrd /initranfs-linux.img" >> /boot/loader/entries/arch.conf
