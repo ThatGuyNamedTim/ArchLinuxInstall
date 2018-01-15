@@ -4,14 +4,14 @@
  - [x] fstab
  - [x] chroot
  - [x] Finish all basic inst
- - [ ] Do the 32 bit allowanced
+ - [ ] Encrpt it
 
 ## Improve ~/.vimrc
-  - [ ] choose theme
+  - [x] choose theme
 
 ## Terminal
   - [ ] choose theme
-
+  - [ ] Install theme
 
 ## Fix settings
   - [x] crash when selecting wifi
@@ -22,7 +22,7 @@
   - [ ] matlab
   - [ ] eclipse
   - [ ] vmware
-  - [ ] latex editor
+  - [x] latex editor
   - [ ] firewall
   - [ ] pdf viewer
 
@@ -33,10 +33,11 @@
   - [ ] make background for login GDM
   - [ ] libreoffice theme
   - [ ] choose theme for atom terminal plus
-  - [ ] libreoffice grammar checking
+  - [x] libreoffice grammar checking
   - [x] fix icon pack for cursor
   - [x] Choose font
   - [x] search for file manager
+  - [x] gnome extensions
 
 ## Errors
   - [ ] fix watchdog error when logging out
