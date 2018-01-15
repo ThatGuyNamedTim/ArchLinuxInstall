@@ -127,11 +127,15 @@ sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
 # edit the cursor icons to look better
 
 # Set up powertop
-wget -O powertop.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinux/master/powertop.service?token=AXmD-fDVw1c35nJ7aRpJFP188xIOsLFHks5aZlwXwA%3D%3D
+wget -O powertop.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertop.service
 mv powertop.service /etc/systemd/system/powertop.service
 # USB fix
-mkdir ~/$username/.Scripts
-
+mkdir ~/.Scripts
+wget -O powertopUSB.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB.service
+mv powertopUSB.service /etc/systemd/system/powertopUSB.service
+wget -O powertopUSB https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
+mv powertopUSB ~/.Scripts
+chmod u+x ~/.Scripts
 
 # Set up grub
 grub-mkconfig -o /boot/grub/grub.cfg
