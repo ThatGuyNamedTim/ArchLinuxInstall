@@ -1,0 +1,8 @@
+[Unit]
+Description=Powertop USB tunings
+
+[Service]
+ExecStart=
+
+[Install]
+WantedBy=multi-user.target

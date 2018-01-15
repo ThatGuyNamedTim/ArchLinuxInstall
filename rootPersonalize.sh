@@ -54,8 +54,8 @@ systemctl enable NetworkManager.service
 # Downloads
 yes | pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
 gcc gdm gimp git gnome-desktop \
-gnome-tweak-tool grep hunspell-en hyphen-en libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
-python ruby sshd texmaker unzip vim virtualbox virtualbox-guest-utils vlc \
+gnome-tweak-tool grep gvim hunspell-en hyphen-en libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
+python ruby sshd texmaker unzip virtualbox virtualbox-guest-utils vlc \
 wget
 
 # atom - text editor
@@ -73,6 +73,7 @@ wget
 # gnome-desktop - the desktop environment
 # gnome-tweak-tool - settings tool for gnome
 # grep - search for a string
+# gvim - text editor
 # hunspell-en - for spelling/grammar
 # hyphen-en - for spelling/grammar
 # libreoffice - text editor suite
@@ -90,7 +91,6 @@ wget
 # texmaker - for LaTeX
 # sshd - used for secure shell
 # unzip - command to unzip
-# vim - text editor
 # virtualbox - a virtual machine tool
 # virtualbox - guest-utils - a tool for virtual machines
 # vlc - media player
@@ -125,6 +125,13 @@ sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
 # Font for microsoft
 # capitaine is a curosor
 # edit the cursor icons to look better
+
+# Set up powertop
+wget -O powertop.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinux/master/powertop.service?token=AXmD-fDVw1c35nJ7aRpJFP188xIOsLFHks5aZlwXwA%3D%3D
+mv powertop.service /etc/systemd/system/powertop.service
+# USB fix
+mkdir ~/$username/.Scripts
+
 
 # Set up grub
 grub-mkconfig -o /boot/grub/grub.cfg

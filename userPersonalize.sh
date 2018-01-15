@@ -22,11 +22,6 @@ then
   git config --global user.email $githubEmail
 fi
 
-# Set up vim and terminal colors
-wget -O ~/.vim/autoload/onedark.vim https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
-mkdir ~/.vim/autoload
-wget -O ~/.vim/autoload/onedark.vim https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
-
 # Set up gnome extensions
 # Dash to dock
 git clone https://github.com/micheleg/dash-to-dock.git
@@ -42,12 +37,21 @@ dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift>
 dconf write /org/gnome/desktop/wm/keybindings/switch-applications "@as []"
 dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward "@as []"
 
+# Install the theme for the terminal
+wget https://raw.githubusercontent.com/denysdovhan/one-gnome-terminal/master/one-dark.sh
+sh one-dark.sh
+rm one-dark.sh
+
+# Install the theme for vim
+wget -O ~/.vim/autoload/onedark.vim https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
+mkdir ~/.vim/autoload
+wget -O ~/.vim/autoload/onedark.vim https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
 
 # Gnome settings tweaks
 dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true # Turn off natural scrolling
 dconf write /org/gnome/desktop/interface/enable-animations false # no animations
 dconf write /org/gnome/shell/overrides/dynamic-workspaces true # dynamic number of workspaces
-dconf writre /org/gnome/shell/overrides/workspaces-only-on-primary false #wokspaces on mltiple dispalces
+dconf write /org/gnome/shell/overrides/workspaces-only-on-primary false #wokspaces on mltiple dispalces
 dconf write /org/gnome/desktop/peripherals/touchpad/speed 0.45 # Set trackpad speed
 dconf write /org/gnome/desktop/search-providers/disabled "['org.gnome.Epiphany.desktop']" # Do not search Internet
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type "'suspend'" # set suspend information
@@ -73,3 +77,6 @@ dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides "{'Gtk/ShellS
 dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show battery percentage top bar
 
 dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side of windows
+
+# DO TO AFTER Install
+  # change terminal theme first col to #282C34
