@@ -15,6 +15,11 @@ hwclock --systohc --utc
 # Set Hostname
 echo "arch" > /etc/hostname
 
+# add hooks because encrypted
+line=$(grep -nr "block" cooltest | cut -d":" -f1)
+sed -i "${line}s/block/keyboard keymap block encrypt lvm2/g"
+mkinitcpio -p linux
+
 # Set trim, for SSDs
 if [ "$ssd" == "y" ] || [ "$ssd" == "y" ]
 then
@@ -58,13 +63,13 @@ gnome-tweak-tool grep gvim hunspell-en hyphen-en libreoffice linux-lts linux-lts
 python ruby sshd texmaker unzip virtualbox virtualbox-guest-utils vlc \
 wget
 
+# grub efibootmgr
 # atom - text editor
 # bash-completion - makes autocomplete better
 # cronie - used for crone jobs
 # curl - tool to download
 # dconf - tool for settings
 # dconf-editor - gui tool for dconf
-# efibootmgr - required for efi grub
 # flashplugin - browser plugin
 # gcc - compiler
 # gdm - the display manager for gnome
@@ -136,7 +141,3 @@ mv powertopUSB.service /etc/systemd/system/powertopUSB.service
 wget -O powertopUSB https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
 mv powertopUSB ~/.Scripts
 chmod u+x ~/.Scripts
-
-# Set up grub
-grub-mkconfig -o /boot/grub/grub.cfg
-grub-install /dev/$drive

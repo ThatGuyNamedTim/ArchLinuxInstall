@@ -30,7 +30,7 @@ export swapChoice
 
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  read -p "Swap space size (Ex: 8GiB): " swapSpace
+  read -p "Swap space size in terms of GiB (Ex: 8): " swapSpace
 fi
 export swapSpace
 
@@ -47,6 +47,7 @@ fi
 export location
 
 # Enter credentials
+echo "The root password will be used to decrypt the system when booting"
 read -p "Password for root: "  -s rootPassword1
 echo
 read -p "Re-enter root Password: " -s rootPassword2
@@ -80,33 +81,25 @@ done
 export userPassword1
 
 
-# Setup github for the user
-read -p "Do you want to set up github (y/n): " githubChoice
-if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
-then
-  read -p "github username: " githubUsername
-  read -p "github email: " githubEmail
-fi
-export githubChoice
-export githubUsername
-export githubEmail
-
-
-
 # Instalation #################################################################
 
-# Disk Partition #######
+# Disk Partition with LVM on LUKS with dm-crypt #######
+# https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS
 # First Parition: EFI
-# Second Partition (Optional): Swap
-# Last Partition: File system
+# Second Partition (Optional): Encrpted partition
 
-# Clear Table
-(
-echo "o" # clear
-echo "Y" # confirm
-echo "w" # write changes
-echo "Y" # confirm
-) | gdisk /dev/$drive > /dev/null
+# Find number of partitions to delete
+parts=`expr $(lsblk /dev/$drive | wc -l) - 2`
+count=0
+while [ $count -lt $parts ]
+do
+  # Clear Table
+  (
+  echo "d" # clear
+  echo "w" # confirm
+  ) | fdisk /dev/$drive > /dev/null
+done
+
 
 # EFI
 (
@@ -114,69 +107,61 @@ echo "n" # new partition
 echo # default partition number
 echo # default storage start point
 echo "+512MiB" # size
-echo "EF00" # hex code
-echo "w" # write changes
-echo "Y" # confirm
+echo "t" # change type
+echo "1" # EFI boot
+echo "w" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
-# Swap space
-if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
-then
-  (
-  echo "n" # new partition
-  echo # default partition number
-  echo # default storage start point
-  echo "+${swapSpace}" # size
-  echo "8200" # hex code
-  echo "w" # write changes
-  echo "Y" # confirm
-  ) | gdisk /dev/$drive > /dev/null
-fi
-
-# File system
+# Encrypted
 (
 echo "n" # new patition
 echo # default partition number
 echo # default storage start point
 echo # max size
-echo # default hex code
 echo "w" # write changes
-echo "Y" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
-
-# Format partitions #######
-
 # Use lsblk to find the partition IDs (could be sda or nvme0n1)
-efiPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
+bootPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
+                                      | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+
+# Encrpt it
+(
+echo 'YES'
+echo "$rootPassword1"
+echo "$rootPassword1"
+) | cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
+
+
+echo "$rootPassword1" | cryptsetup open /dev/$encryptedPartitionID encryptedVol
+
+# Create the root and swap if necesarry
+pvcreate /dev/mapper/encryptedVol
+vgcreate vol /dev/mapper/encryptedVol
 
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  filePartitionID=$(lsblk | grep $drive | sed -n 4p | grep $drive \
-                                      | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-else
-  filePartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
-                                      | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
+  lvcreate -L ${swapSpace}G vol -n swap
+  mkswap /dev/mapper/vol-swap
 fi
 
-# Format the partitions
-mkfs.ext4 /dev/$filePartitionID
+lvcreate l 100%FREE vol -n root
+
+# Format the partitions and mount
+mkfs.ext4 /dev/mapper/vol-root
 mkfs.fat -F32 /dev/$efiPartitionID
 
-# Format the swap if the user wanted one
-if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
-then
-  swapPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
-                          | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-  mkswap /dev/$swapPartitionID
-  swapon /dev/$swapPartitionID
-fi
-
-# Mount the filesystem and the bootable partition #######
-mount /dev/$filePartitionID /mnt
+mount /dev/mapper/vol-root /mnt
 mkdir /mnt/boot
 mount /dev/$efiPartitionID /mnt/boot
+
+# Swap if the user wanted one
+if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
+then
+  swapon /dev/mapper/vol-swap
+fi
 
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup

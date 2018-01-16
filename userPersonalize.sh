@@ -1,3 +1,10 @@
+# Setup github for the user
+read -p "Do you want to set up github (y/n): " githubChoice
+if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
+then
+  read -p "github username: " githubUsername
+  read -p "github email: " githubEmail
+fi
 
 # Create icons for the desktop
 ln -s ~/Pictures ~/Desktop/Pictures

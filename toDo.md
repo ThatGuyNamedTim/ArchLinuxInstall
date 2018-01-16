@@ -10,8 +10,8 @@
   - [x] choose theme
 
 ## Terminal
-  - [ ] choose theme
-  - [ ] Install theme
+  - [x] choose theme
+  - [x] Install theme
 
 ## Fix settings
   - [x] crash when selecting wifi
