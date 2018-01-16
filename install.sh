@@ -98,6 +98,7 @@ do
   echo "d" # clear
   echo "w" # confirm
   ) | fdisk /dev/$drive > /dev/null
+  count=$((count+1))
 done
 
 
@@ -110,7 +111,7 @@ echo "+512MiB" # size
 echo "t" # change type
 echo "1" # EFI boot
 echo "w" # confirm
-) | gdisk /dev/$drive > /dev/null
+) | fdisk /dev/$drive > /dev/null
 
 # Encrypted
 (
@@ -126,7 +127,8 @@ bootPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-
+export bootPartitionID
+export encryptedPartitionID
 # Encrpt it
 (
 echo 'YES'
@@ -147,7 +149,7 @@ then
   mkswap /dev/mapper/vol-swap
 fi
 
-lvcreate l 100%FREE vol -n root
+lvcreate -l 100%FREE vol -n root
 
 # Format the partitions and mount
 mkfs.ext4 /dev/mapper/vol-root
@@ -167,6 +169,7 @@ fi
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+rm /etc/pacman.d/mirrorlist.backup
 
 # Install base system
 pacstrap /mnt base base-devel

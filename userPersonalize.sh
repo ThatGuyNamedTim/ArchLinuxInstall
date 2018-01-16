@@ -5,6 +5,35 @@ then
   read -p "github username: " githubUsername
   read -p "github email: " githubEmail
 fi
+# Install packages from the AUR
+
+git clone https://aur.archlinux.org/yaourt.git
+cd yaourt
+makepkg -sic
+cd ..
+rm -rf yaourt
+yes 1 | yaourt --noconfirm google-chrome
+yes 1 | yaourt --noconfirm papirus-icon-theme-git
+yes 1 | yaourt --noconfirm papirus-folders-git
+papirus-folders -C black
+yes 1 | yaourt --noconfirm gtk-theme-arc-grey
+yes 1 |  yaourt --noconfirm ttf-ms-fonts
+
+yes 1 | yaourt --noconfirm capitaine-cursors
+sudo cp /usr/share/icons/capitaine-cursors/cursors/dnd-move \
+/usr/share/icons/capitaine-cursors/cursors/fleur
+sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_bdiag
+sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_fdiag
+sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_hor
+sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
+# Yaourt is a manager for the AUR
+# Google is a browser
+# Papirus have the best icons
+# Papirus-folders allows one to change the folder color
+# arc-grey gnome theme
+# Font for microsoft
+# capitaine is a curosor
+# edit the cursor icons to look better
 
 # Create icons for the desktop
 ln -s ~/Pictures ~/Desktop/Pictures

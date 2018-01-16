@@ -3,7 +3,7 @@
 
 # Language  (ENGLISH)
 sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
-locale.gen
+locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 export LANG=en_US.UTF-8
 
@@ -16,8 +16,10 @@ hwclock --systohc --utc
 echo "arch" > /etc/hostname
 
 # add hooks because encrypted
-line=$(grep -nr "block" cooltest | cut -d":" -f1)
-sed -i "${line}s/block/keyboard keymap block encrypt lvm2/g"
+for i in $( grep -nr "block" /etc/mkinitcpio.conf | cut -d":" -f1 )
+do
+  sed -i "${i}s/block/keyboard keymap block encrypt lvm2/g" /etc/mkinitcpio.conf
+done
 mkinitcpio -p linux
 
 # Set trim, for SSDs
@@ -36,8 +38,8 @@ useradd -m -g users -G wheel,storage,power -s /bin/bash $username
 echo $'$rootPassword1\n$rootPassword1'|passwd $username
 
 # Wheel group for command and need sudo password
-sed -i 's/^#\s%wheel\sALL=\(ALL\)\sALL$/%wheel\sALL=\(ALL\)\sALL/' /etc/sudoers.tmp
-echo "Defaults rootpw" >> /etc/sudoers.tmp
+sed -i 's/^#\s%wheel\sALL=(ALL)\sALL$/%wheel ALL=(ALL) ALL/g' /etc/sudoers
+echo "Defaults rootpw" >> /etc/sudoers
 
 
 # Set up bootloader
@@ -50,20 +52,29 @@ then
   echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 fi
 echo "initrd /initranfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/$filePartitionID) rw" >> /boot/loader/entries/arch.conf
+echo "options cryptdevice=UUID=$(blkid -s PARTUUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
 
 # The networking
 yes | pacman -S networkmanager
 systemctl enable NetworkManager.service
 
 # Downloads
-yes | pacman -Syu  atom bash-completion cronie curl dconf dconf-editor efibootmgr flashplugin \
+(
+echo "2"
+echo "1"
+echo "Y") | pacman -S atom
+
+yes | pacman -Syu bash-completion cronie curl dconf dconf-editor flashplugin \
 gcc gdm gimp git gnome-desktop \
-gnome-tweak-tool grep gvim hunspell-en hyphen-en libreoffice linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl pip powertop \
-python ruby sshd texmaker unzip virtualbox virtualbox-guest-utils vlc \
+gnome-tweak-tool grep gvim hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl python-pip powertop \
+python ruby sshd texmaker unzip vlc \
 wget
 
-# grub efibootmgr
+(
+echo "1"
+echo "1"
+echo "Y") | pacman -S virtualbox-guest-utils virtualbox
+
 # atom - text editor
 # bash-completion - makes autocomplete better
 # cronie - used for crone jobs
@@ -101,35 +112,6 @@ wget
 # vlc - media player
 # wget - tool to download
 
-# Install packages from the AUR
-
-git clone https://aur.archlinux.org/yaourt.git
-cd yaourt
-makepkg -sic
-cd ..
-rm -rf yaourt
-yes 1 | yaourt --noconfirm google-chrome
-yes 1 | yaourt --noconfirm papirus-icon-theme-git
-yes 1 | yaourt --noconfirm papirus-folders-git
-papirus-folders -C black
-yes 1 | yaourt --noconfirm gtk-theme-arc-grey
-yes 1 |  yaourt --noconfirm ttf-ms-fonts
-
-yes 1 | yaourt --noconfirm capitaine-cursors
-sudo cp /usr/share/icons/capitaine-cursors/cursors/dnd-move \
-/usr/share/icons/capitaine-cursors/cursors/fleur
-sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_bdiag
-sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_fdiag
-sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_hor
-sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
-# Yaourt is a manager for the AUR
-# Google is a browser
-# Papirus have the best icons
-# Papirus-folders allows one to change the folder color
-# arc-grey gnome theme
-# Font for microsoft
-# capitaine is a curosor
-# edit the cursor icons to look better
 
 # Set up powertop
 wget -O powertop.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertop.service
