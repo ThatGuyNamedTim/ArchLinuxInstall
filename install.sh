@@ -125,7 +125,7 @@ if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   swapon /dev/mapper/vol-swap
 fi
-
+echo "There is an output which might take awhile so don't worry"
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.backup
@@ -139,7 +139,7 @@ pacstrap /mnt base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run personalize to share variables
-wget -O personalize.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
-mv personalize.sh /mnt
-arch-chroot /mnt chmod u+x ./personalize.sh
-arch-chroot /mnt ./personalize.sh
+wget -O rootPersonalize.sh.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
+mv rootPersonalize.sh /mnt
+arch-chroot /mnt chmod u+x ./rootPersonalize.sh
+arch-chroot /mnt ./rootPersonalize.sh

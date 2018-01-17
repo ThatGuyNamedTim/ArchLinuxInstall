@@ -48,13 +48,13 @@ echo "Defaults rootpw" >> /etc/sudoers
 # Set up bootloader
 bootctl install
 echo "title Arch Linux" >> /boot/loader/entries/arch.conf
-echo "linux vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
 then
   yes|pacman -S intel-ucode
   echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 fi
-echo "initrd /initranfs-linux.img" >> /boot/loader/entries/arch.conf
+echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options cryptdevice=UUID=$(blkid -s PARTUUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
 
 # The networking
@@ -70,8 +70,8 @@ echo "Y") | pacman -S atom
 yes | pacman -Syu bash-completion cronie curl dconf dconf-editor flashplugin \
 gcc gdm gimp git gnome-desktop \
 gnome-tweak-tool grep gvim hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl python-pip powertop \
-python ruby sshd texmaker unzip vlc \
-wget
+python ruby sshd texmaker unzip vlc wget
+
 
 (
 echo "1"

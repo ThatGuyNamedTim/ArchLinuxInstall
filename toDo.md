@@ -1,7 +1,6 @@
 # To Do
 
 
-[ ] autoexpect
 
 ## Improve the install instructions
  - [x] fstab
@@ -12,7 +11,7 @@
 ## Improve ~/.vimrc
   - [x] choose theme
 
-## Terminal
+## Terminalvir
   - [x] choose theme
   - [x] Install theme
 
