@@ -113,13 +113,13 @@ echo "Y") | pacman -S virtualbox-guest-utils virtualbox
 # wget - tool to download
 
 
-# Set up powertop
-wget -O powertop.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertop.service
-mv powertop.service /etc/systemd/system/powertop.service
-# USB fix
-mkdir ~/.Scripts
+
+# USB fix with powertop
 wget -O powertopUSB.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB.service
 mv powertopUSB.service /etc/systemd/system/powertopUSB.service
 wget -O powertopUSB https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
-mv powertopUSB ~/.Scripts
-chmod u+x ~/.Scripts
+mv powertopUSB /usr/bin/
+chmod +x /usr/bin/powertopUSB
+
+#enable
+systemctl enable powertopUSB.service

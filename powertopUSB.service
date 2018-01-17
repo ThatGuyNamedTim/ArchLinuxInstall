@@ -2,7 +2,7 @@
 Description=Powertop USB tunings
 
 [Service]
-ExecStart= ~/.Scripts
+ExecStart= /usr/bin/bash /usr/bin/powertopUSB
 
 [Install]
 WantedBy=multi-user.target

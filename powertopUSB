@@ -1,4 +1,6 @@
+#!/bin/bash
+powertop --auto-tune
 echo "for file in `ls /sys/bus/usb/devices/*/power/control`
 do
-    sudo echo 'on' > $file
+    echo 'on' > $file
 done"
