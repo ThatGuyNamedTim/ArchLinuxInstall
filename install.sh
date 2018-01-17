@@ -94,10 +94,10 @@ encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
 export bootPartitionID
 export encryptedPartitionID
 # Encrpt it
-echo 'YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR the DISK ENCRYPTION!!!!'
+echo 'YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
 
-echo 'YOU ARE NOT BEING PROMPTED TO ENTER YOUR PASSWORD FOR the DISK ENCRYPTION!!!!'
+echo 'YOU ARE NOT BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
 # Create the root and swap if necesarry
@@ -114,11 +114,11 @@ lvcreate -l 100%FREE vol -n root > /dev/null
 
 # Format the partitions and mount
 mkfs.ext4 /dev/mapper/vol-root > /dev/null
-mkfs.fat -F32 /dev/$efiPartitionID > /dev/null
+mkfs.fat -F32 /dev/$bootPartitionID > /dev/null
 
 mount /dev/mapper/vol-root /mnt > /dev/null
 mkdir /mnt/boot > /dev/null
-mount /dev/$efiPartitionID /mnt/boot > /dev/null
+mount /dev/$bootPartitionID /mnt/boot > /dev/null
 
 # Swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
