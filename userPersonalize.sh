@@ -114,5 +114,8 @@ dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show bat
 
 dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side of windows
 
+rm .vimrc
+wget wget -O ~/.vimrc personalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/.vimrc
+
 # DO TO AFTER Install
   # change terminal theme first col to #282C34
