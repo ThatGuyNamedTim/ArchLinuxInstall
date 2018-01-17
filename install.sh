@@ -96,6 +96,7 @@ do
   # Clear Table
   (
   echo "d" # clear
+  echo     # for partition number
   echo "w" # confirm
   ) | fdisk /dev/$drive > /dev/null
   count=$((count+1))
@@ -120,7 +121,7 @@ echo # default partition number
 echo # default storage start point
 echo # max size
 echo "w" # write changes
-) | gdisk /dev/$drive > /dev/null
+) | fdisk /dev/$drive > /dev/null
 
 # Use lsblk to find the partition IDs (could be sda or nvme0n1)
 bootPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
