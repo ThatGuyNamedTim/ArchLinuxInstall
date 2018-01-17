@@ -94,36 +94,36 @@ encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
 export bootPartitionID
 export encryptedPartitionID
 # Encrpt it
-echo 'YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
+echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
 
-echo 'YOU ARE NOT BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
+echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
 # Create the root and swap if necesarry
-pvcreate /dev/mapper/encryptedVol > /dev/null
-vgcreate vol /dev/mapper/encryptedVol > /dev/null
+pvcreate /dev/mapper/encryptedVol
+vgcreate vol /dev/mapper/encryptedVol
 
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  lvcreate -L ${swapSpace}G vol -n swap > /dev/null
-  mkswap /dev/mapper/vol-swap > /dev/null
+  lvcreate -L ${swapSpace}G vol -n swap
+  mkswap /dev/mapper/vol-swap
 fi
 
-lvcreate -l 100%FREE vol -n root > /dev/null
+lvcreate -l 100%FREE vol -n root
 
 # Format the partitions and mount
-mkfs.ext4 /dev/mapper/vol-root > /dev/null
-mkfs.fat -F32 /dev/$bootPartitionID > /dev/null
+mkfs.ext4 /dev/mapper/vol-root
+mkfs.fat -F32 /dev/$bootPartitionID
 
-mount /dev/mapper/vol-root /mnt > /dev/null
-mkdir /mnt/boot > /dev/null
-mount /dev/$bootPartitionID /mnt/boot > /dev/null
+mount /dev/mapper/vol-root /mnt
+mkdir /mnt/boot
+mount /dev/$bootPartitionID /mnt/boot
 
 # Swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  swapon /dev/mapper/vol-swap > /dev/null
+  swapon /dev/mapper/vol-swap
 fi
 
 # Set up the mirrors for downloads #######
@@ -133,7 +133,7 @@ rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 rm /etc/pacman.d/mirrorlist.backup
 
 # Install base system
-pacstrap /mnt base base-devel > /dev/null
+pacstrap /mnt base base-devel
 
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
