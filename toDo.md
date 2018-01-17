@@ -1,5 +1,8 @@
 # To Do
 
+
+[ ] autoexpect
+
 ## Improve the install instructions
  - [x] fstab
  - [x] chroot

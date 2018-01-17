@@ -25,7 +25,7 @@ mkinitcpio -p linux
 # Set trim, for SSDs
 if [ "$ssd" == "y" ] || [ "$ssd" == "y" ]
 then
-  systemctl enable fstrim.timer
+  systemctl enable fstrim.timer > /dev/null
 fi
 
 # Allow use of 32-bit software
@@ -33,9 +33,12 @@ fi
 # arch-chroot /mnt sed -i 's/^#Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf
 
 # Set up root and user information such as password
-echo $'$rootPassword1\n$rootPassword1'|passwd
+echo 'YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR root'
+passwd
+
 useradd -m -g users -G wheel,storage,power -s /bin/bash $username
-echo $'$rootPassword1\n$rootPassword1'|passwd $username
+echo "YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR $username"
+passwd $username
 
 # Wheel group for command and need sudo password
 sed -i 's/^#\s%wheel\sALL=(ALL)\sALL$/%wheel ALL=(ALL) ALL/g' /etc/sudoers

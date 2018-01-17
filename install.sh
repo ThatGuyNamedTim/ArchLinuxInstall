@@ -46,43 +46,10 @@ then
 fi
 export location
 
-# Enter credentials
-echo "The root password will be used to decrypt the system when booting"
-read -p "Password for root: "  -s rootPassword1
-echo
-read -p "Re-enter root Password: " -s rootPassword2
-echo
-
-while [ "$rootPassword1" != "$rootPassword2" ]
-do
-  echo "Passwords do not match, please try again"
-  read -p "Password for root: "  -s rootPassword1
-  echo
-  read -p "Re-enter root Password: " -s rootPassword2
-  echo
-done
-export rootPassword1
-
 read -p "Username: " username
-read -p "Password: "  -s userPassword1
-echo
-read -p "Re-enter Password: " -s userPassword2
-echo
 export username
 
-while [ "$userPassword1" != "$userPassword2" ]
-do
-  printf "Passwords do not match, please try again\n"
-  read -p "Password: " -s userPassword1
-  echo
-  read -p "Re-enter Password: " -s userPassword2
-  echo
-done
-export userPassword1
-
-
 # Instalation #################################################################
-
 # Disk Partition with LVM on LUKS with dm-crypt #######
 # https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS
 # First Parition: EFI
@@ -127,55 +94,52 @@ encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
 export bootPartitionID
 export encryptedPartitionID
 # Encrpt it
-(
-echo 'YES'
-echo "$rootPassword1"
-echo "$rootPassword1"
-) | cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
+echo 'YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR the DISK ENCRYPTION!!!!'
+cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
 
-
-echo "$rootPassword1" | cryptsetup open /dev/$encryptedPartitionID encryptedVol
+echo 'YOU ARE NOT BEING PROMPTED TO ENTER YOUR PASSWORD FOR the DISK ENCRYPTION!!!!'
+cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
 # Create the root and swap if necesarry
-pvcreate /dev/mapper/encryptedVol
-vgcreate vol /dev/mapper/encryptedVol
+pvcreate /dev/mapper/encryptedVol > /dev/null
+vgcreate vol /dev/mapper/encryptedVol > /dev/null
 
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  lvcreate -L ${swapSpace}G vol -n swap
-  mkswap /dev/mapper/vol-swap
+  lvcreate -L ${swapSpace}G vol -n swap > /dev/null
+  mkswap /dev/mapper/vol-swap > /dev/null
 fi
 
-lvcreate -l 100%FREE vol -n root
+lvcreate -l 100%FREE vol -n root > /dev/null
 
 # Format the partitions and mount
-mkfs.ext4 /dev/mapper/vol-root
-mkfs.fat -F32 /dev/$efiPartitionID
+mkfs.ext4 /dev/mapper/vol-root > /dev/null
+mkfs.fat -F32 /dev/$efiPartitionID > /dev/null
 
-mount /dev/mapper/vol-root /mnt
-mkdir /mnt/boot
-mount /dev/$efiPartitionID /mnt/boot
+mount /dev/mapper/vol-root /mnt > /dev/null
+mkdir /mnt/boot > /dev/null
+mount /dev/$efiPartitionID /mnt/boot > /dev/null
 
 # Swap if the user wanted one
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
-  swapon /dev/mapper/vol-swap
+  swapon /dev/mapper/vol-swap > /dev/null
 fi
 
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.backup
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 rm /etc/pacman.d/mirrorlist.backup
 
 # Install base system
-pacstrap /mnt base base-devel
+pacstrap /mnt base base-devel > /dev/null
 
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run personalize to share variables
-wget -O personalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
+wget -O personalize.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
 mv personalize.sh /mnt
 arch-chroot /mnt chmod u+x ./personalize.sh
 arch-chroot /mnt ./personalize.sh
