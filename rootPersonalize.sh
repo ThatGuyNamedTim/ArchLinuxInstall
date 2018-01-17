@@ -33,11 +33,15 @@ fi
 # arch-chroot /mnt sed -i 's/^#Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf
 
 # Set up root and user information such as password
-echo 'YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR root'
+echo $'\n\n\n\n\n'
+echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR root'
+echo
 passwd
 
 useradd -m -g users -G wheel,storage,power -s /bin/bash $username
+echo $'\n\n\n\n\n'
 echo "YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR $username"
+echo
 passwd $username
 
 # Wheel group for command and need sudo password

@@ -94,10 +94,15 @@ encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
 export bootPartitionID
 export encryptedPartitionID
 # Encrpt it
+
+echo $'\n\n\n\n\n'
 echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
+echo
 cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
 
+echo $'\n\n\n\n\n'
 echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
+echo
 cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
 # Create the root and swap if necesarry
@@ -125,7 +130,8 @@ if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   swapon /dev/mapper/vol-swap
 fi
-echo "There is an output which might take awhile so don't worry"
+echo $'\n\n\n\n\n'
+echo "THERE MAY BE NO OUTPUT FOR AWHILE DUE TO GENERATING A MIRRORLIST AND THIS TAKES SOME TIME"
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.backup
@@ -139,7 +145,7 @@ pacstrap /mnt base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run personalize to share variables
-wget -O rootPersonalize.sh.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
+wget -O rootPersonalize.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
 mv rootPersonalize.sh /mnt
-arch-chroot /mnt chmod u+x ./rootPersonalize.sh
+arch-chroot /mnt chmod +x ./rootPersonalize.sh
 arch-chroot /mnt ./rootPersonalize.sh
