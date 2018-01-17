@@ -9,7 +9,7 @@ export LANG=en_US.UTF-8
 
 # Region for timing and the hardware clock
 
-ln -s $location > /etc/localtime
+ln -sf $location /etc/localtime
 hwclock --systohc --utc
 
 # Set Hostname
@@ -49,7 +49,7 @@ sed -i 's/^#\s%wheel\sALL=(ALL)\sALL$/%wheel ALL=(ALL) ALL/g' /etc/sudoers
 echo "Defaults rootpw" >> /etc/sudoers
 
 
-# Set up bootloader
+# Set up boot
 bootctl install
 echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
@@ -60,6 +60,12 @@ then
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options cryptdevice=UUID=$(blkid -s PARTUUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
+
+echo "default arch" > /boot/loader/loader.conf
+echo "timeout 3" >> /boot/loader/loader.conf
+echo "editor 0" >> /boot/loader/loader.conf
+
+
 
 # The networking
 yes | pacman -S networkmanager
@@ -73,7 +79,7 @@ echo "Y") | pacman -S atom
 
 yes | pacman -Syu bash-completion cronie curl dconf dconf-editor flashplugin \
 gcc gdm gimp git gnome-desktop \
-gnome-tweak-tool grep gvim hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl python-pip powertop \
+gnome-tweak-tool grep grub gvim hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl python-pip powertop \
 python ruby sshd texmaker unzip vlc wget
 
 
@@ -81,7 +87,7 @@ python ruby sshd texmaker unzip vlc wget
 echo "1"
 echo "1"
 echo "Y") | pacman -S virtualbox-guest-utils virtualbox
-
+modprobe vboxdrv
 # atom - text editor
 # bash-completion - makes autocomplete better
 # cronie - used for crone jobs
@@ -120,12 +126,9 @@ echo "Y") | pacman -S virtualbox-guest-utils virtualbox
 # wget - tool to download
 
 
-
 # USB fix with powertop
-wget -O powertopUSB.service https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB.service
-mv powertopUSB.service /etc/systemd/system/powertopUSB.service
-wget -O powertopUSB https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
-mv powertopUSB /usr/bin/
+mv /powertopUSB.service /etc/systemd/system/powertopUSB.service
+mv /powertopUSB /usr/bin/
 chmod +x /usr/bin/powertopUSB
 
 #enable

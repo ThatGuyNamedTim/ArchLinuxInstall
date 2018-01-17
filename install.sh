@@ -144,8 +144,14 @@ pacstrap /mnt base base-devel
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Run personalize to share variables
+# Run personalize to share variables and download
 wget -O rootPersonalize.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
 mv rootPersonalize.sh /mnt
 arch-chroot /mnt chmod +x ./rootPersonalize.sh
+
+wget -O powertopUSB.service -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB.service
+mv powertopUSB.service /mnt
+wget -O powertopUSB -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
+mv powertopUSB /mnt
+
 arch-chroot /mnt ./rootPersonalize.sh
