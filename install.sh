@@ -89,41 +89,35 @@ export userPassword1
 # Second Partition (Optional): Encrpted partition
 
 # Find number of partitions to delete
-parts=`expr $(lsblk /dev/$drive | wc -l) - 2`
-count=0
-while [ $count -lt $parts ]
-do
-  # Clear Table
-  (
-  echo "d" # clear
-  echo     # for partition number
-  echo "w" # confirm
-  ) | fdisk /dev/$drive > /dev/null
-  count=$((count+1))
-done
-
+# Clear Table
+(
+echo "o" # clear
+echo "Y" # confirm
+echo "w" # write changes
+echo "Y" # confirm
+) | gdisk /dev/$drive > /dev/null
 
 # EFI
 (
 echo "n" # new partition
-echo # default partition type
 echo # default partition number
 echo # default storage start point
 echo "+512MiB" # size
-echo "t" # change type
-echo "1" # EFI boot
-echo "w" # confirm
-) | fdisk /dev/$drive > /dev/null
+echo "EF00" # hex code
+echo "w" # write changes
+echo "Y" # confirm
+) | gdisk /dev/$drive > /dev/null
 
-# Encrypted
+# Encrypted Partition
 (
 echo "n" # new patition
-echo #default partion type
 echo # default partition number
 echo # default storage start point
 echo # max size
+echo # default hex code
 echo "w" # write changes
-) | fdisk /dev/$drive > /dev/null
+echo "Y" # confirm
+) | gdisk /dev/$drive > /dev/null
 
 # Use lsblk to find the partition IDs (could be sda or nvme0n1)
 bootPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
