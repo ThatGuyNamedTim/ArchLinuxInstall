@@ -106,6 +106,7 @@ done
 # EFI
 (
 echo "n" # new partition
+echo # default partition type
 echo # default partition number
 echo # default storage start point
 echo "+512MiB" # size
@@ -117,6 +118,7 @@ echo "w" # confirm
 # Encrypted
 (
 echo "n" # new patition
+echo #default partion type
 echo # default partition number
 echo # default storage start point
 echo # max size
