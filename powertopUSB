@@ -1,4 +1,5 @@
 #!/bin/bash
+# This will run powertop but fix the USB autosuspend issues
 powertop --auto-tune
 echo "for file in `ls /sys/bus/usb/devices/*/power/control`
 do

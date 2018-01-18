@@ -84,9 +84,11 @@ sh one-dark.sh
 rm one-dark.sh
 
 # Install the theme for vim
-wget -O ~/.vim/autoload/onedark.vim https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
+wget -O ~/.vim/autoload/onedark.vim \
+https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
 mkdir ~/.vim/autoload
-wget -O ~/.vim/autoload/onedark.vim https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
+wget -O ~/.vim/autoload/onedark.vim \
+https://raw.githubusercontent.com/joshdick/onedark.vim/master/autoload/onedark.vim
 
 # Gnome settings tweaks
 dconf write /org/gnome/desktop/peripherals/touchpad/natural-scroll true # Turn off natural scrolling
@@ -120,7 +122,8 @@ dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show bat
 dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side of windows
 
 rm .vimrc
-wget wget -O ~/.vimrc personalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/.vimrc
+wget wget -O ~/.vimrc personalize.sh \
+https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/.vimrc
 
 # DO TO AFTER INSTALL
   # Change terminal theme first col to #282C34

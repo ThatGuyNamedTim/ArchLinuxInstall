@@ -30,6 +30,7 @@ reboot -n
 ```
 wget -O userPersonalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/userPersonalize.sh
 chmod u+x userPersonalize.sh
+./userPersonalize.sh
 rm userPersonalize.sh
 ```
 <br />

@@ -91,12 +91,14 @@ export encryptedPartitionID
 # Encrpt it
 
 echo $'\n\n\n\n\n'
-echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
+echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK
+ENCRYPTION!!!!'
 echo
 cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
 
 echo $'\n\n\n\n\n'
-echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
+echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK
+ENCRYPTION!!!!'
 echo
 cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
@@ -126,7 +128,8 @@ then
   swapon /dev/mapper/vol-swap
 fi
 echo $'\n\n\n\n\n'
-echo "THERE MAY BE NO OUTPUT FOR AWHILE DUE TO GENERATING A MIRRORLIST AND THIS TAKES SOME TIME"
+echo "THERE MAY BE NO OUTPUT FOR AWHILE DUE TO GENERATING A MIRRORLIST
+AND THIS TAKES SOME TIME"
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.backup
@@ -140,14 +143,18 @@ pacstrap /mnt base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run personalize to share variables collected in this script and download
-# necessary files 
-wget -O rootPersonalize.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
+# necessary files
+wget -O rootPersonalize.sh \
+https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
 mv rootPersonalize.sh /mnt
 arch-chroot /mnt chmod +x ./rootPersonalize.sh
 
-wget -O powertopUSB.service -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB.service
+wget -O powertopUSB.service \
+https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB.service
 mv powertopUSB.service /mnt
-wget -O powertopUSB -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
+wget -O powertopUSB \
+https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powertopUSB
 mv powertopUSB /mnt
 
 arch-chroot /mnt ./rootPersonalize.sh
+rm /rootPersonalize.sh

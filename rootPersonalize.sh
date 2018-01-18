@@ -71,11 +71,12 @@ systemctl enable NetworkManager.service
 echo "2"
 echo "1"
 echo "Y") | pacman -S atom
-echo "Y" | pacmsn -S linux-headers
-yes | pacman -Syu bash-completion cronie curl dconf dconf-editor flashplugin \
-gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim hunspell-en \
-hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml \
-otf-overpass perl python-pip powertop python ruby sshd texmaker unzip vlc wget
+echo "Y" | pacman -S linux-headers
+yes | pacman -Syu --noconfirm bash-completion cronie curl dconf dconf-editor \
+firefox flashplugin gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim \
+hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp \
+ocaml otf-overpass perl python-pip powertop python ruby sshd texmaker unzip \
+vlc wget
 
 (
 echo "1"
@@ -89,6 +90,7 @@ modprobe vboxdrv
 # curl - tool to download
 # dconf - tool for settings
 # dconf-editor - gui tool for dconf
+# firefox - web browser
 # flashplugin - browser plugin
 # gcc - compiler
 # gdm - the display manager for gnome
@@ -121,6 +123,8 @@ modprobe vboxdrv
 # vlc - media player
 # wget - tool to download
 
+# GNOME
+systemctl enable gdm,service
 
 # USB fix with powertop
 mv /powertopUSB.service /etc/systemd/system/powertopUSB.service
