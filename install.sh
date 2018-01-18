@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This will install Arch Linux for an EFI system with gdm and the gnome desktop
-# environment
+# environment with an nvidia graphics card
 # https://wiki.archlinux.org/index.php/installation_guide
 # https://www.youtube.com/watch?v=iF7Y8IH5A3M
 

@@ -36,7 +36,7 @@ passwd
 
 useradd -m -g users -G wheel,storage,power -s /bin/bash $username
 echo $'\n\n\n\n\n'
-echo "YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR $username"
+echo "YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR $username"
 echo
 passwd $username
 
@@ -70,21 +70,21 @@ echo "2"
 echo "1"
 echo "Y") | pacman -S atom
 echo "Y" | pacman -S linux-headers
-yes | pacman -Syu --noconfirm bash-completion cronie curl dconf dconf-editor \
+pacman -Syu --noconfirm bash-completion bumblebee cronie curl dconf dconf-editor \
 firefox flashplugin gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim \
-hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp \
-ocaml otf-overpass perl python-pip powertop python ruby sshd texmaker unzip \
-vlc wget
+hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mesa mono ntp \
+ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker unzip \
+vlc wget xf86-video-intel xorg
 
 (
 echo "1"
 echo "1"
 echo "Y") | pacman -S virtualbox-guest-utils virtualbox
-modprobe vboxdrv
 
 # atom - text editor
 # bash-completion - makes autocomplete better
-# cronie - used for crone jobs
+# bumblebee - for nvidia
+# cronie - used for cron jobs
 # curl - tool to download
 # dconf - tool for settings
 # dconf-editor - gui tool for dconf
@@ -104,9 +104,11 @@ modprobe vboxdrv
 # linux-headers - for kernel
 # linux-lts - the long term support kernel version
 # linux-lts-headers - the long term support kernel version
+# mesa - for graphics
 # mono - compiler
 # ntp - used to synchronize the clock
 # ocaml - programming language
+# openssh - secure shell
 # otf-overpass - a font package
 # perl - programming language
 # pip - package manager for python
@@ -114,16 +116,18 @@ modprobe vboxdrv
 # python - programming language
 # ruby - programming language
 # texmaker - for LaTeX
-# sshd - used for secure shell
 # unzip - command to unzip
 # virtualbox - a virtual machine tool
 # virtualbox - guest-utils - a tool for virtual machines
 # vlc - media player
 # wget - tool to download
+# xorg - dispay service
+
+gpasswd -a user bumblebee
+systemctl enable bumblebeed.service
 
 # GNOME
-systemctl enable gdm,service
-pacman -R empathy
+systemctl enable gdm.service
 
 # USB fix with powertop
 mv /powertopUSB.service /etc/systemd/system/powertopUSB.service

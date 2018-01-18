@@ -128,3 +128,4 @@ https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/.vimrc
 
 # DO TO AFTER INSTALL
   # Change terminal theme first col to #282C34
+  # fic virtualbox
