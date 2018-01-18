@@ -1,3 +1,8 @@
+#!/bin/bash
+# This is a script to run settings for the user
+
+# User Personalization ########################################################
+
 # Setup github for the user
 read -p "Do you want to set up github (y/n): " githubChoice
 if [ "$githubChoice" == "y" ] || [ "$githubChoice" == "Y" ]
@@ -117,5 +122,5 @@ dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,m
 rm .vimrc
 wget wget -O ~/.vimrc personalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/.vimrc
 
-# DO TO AFTER Install
-  # change terminal theme first col to #282C34
+# DO TO AFTER INSTALL
+  # Change terminal theme first col to #282C34

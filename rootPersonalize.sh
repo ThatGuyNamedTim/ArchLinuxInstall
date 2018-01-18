@@ -1,21 +1,21 @@
 #!/bin/bash
 # This is the script that shuold be run from within the install
 
-# Language  (ENGLISH)
+# Personalization ##############################################################
+
+# Set language (ENGLISH)
 sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
-export LANG=en_US.UTF-8
 
 # Region for timing and the hardware clock
-
 ln -sf $location /etc/localtime
 hwclock --systohc --utc
 
 # Set Hostname
 echo "arch" > /etc/hostname
 
-# add hooks because encrypted
+# Add hooks that are required by dm-crypt
 for i in $( grep -nr "block" /etc/mkinitcpio.conf | cut -d":" -f1 )
 do
   sed -i "${i}s/block/keyboard keymap block encrypt lvm2/g" /etc/mkinitcpio.conf
@@ -27,10 +27,6 @@ if [ "$ssd" == "y" ] || [ "$ssd" == "y" ]
 then
   systemctl enable fstrim.timer > /dev/null
 fi
-
-# Allow use of 32-bit software
-# arch-chroot /mnt sed -i 's/^#\[multilib\]/\[multilib\]' /etc/pacman.conf
-# arch-chroot /mnt sed -i 's/^#Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf
 
 # Set up root and user information such as password
 echo $'\n\n\n\n\n'
@@ -44,28 +40,27 @@ echo "YOU ARE NOT BEING PROMPTED TO SET YOUR PASSWORD FOR $username"
 echo
 passwd $username
 
-# Wheel group for command and need sudo password
+# Wheel group for amy command and need root password for sudo commands
 sed -i 's/^#\s%wheel\sALL=(ALL)\sALL$/%wheel ALL=(ALL) ALL/g' /etc/sudoers
 echo "Defaults rootpw" >> /etc/sudoers
 
 
-# Set up boot
+# Set up arch linux boot
 bootctl install
 echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
+
+# Enable Intel microcode updates
 if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
 then
   yes|pacman -S intel-ucode
   echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options cryptdevice=UUID=$(blkid -s UUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
 
-# echo "default arch" > /boot/loader/loader.conf
-# echo "timeout 3" >> /boot/loader/loader.conf
-# echo "editor 0" >> /boot/loader/loader.conf
-
-
+echo "options cryptdevice=UUID=$(blkid -s UUID -o value \
+/dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" \
+>> /boot/loader/entries/arch.conf
 
 # The networking
 yes | pacman -S networkmanager
@@ -78,16 +73,16 @@ echo "1"
 echo "Y") | pacman -S atom
 echo "Y" | pacmsn -S linux-headers
 yes | pacman -Syu bash-completion cronie curl dconf dconf-editor flashplugin \
-gcc gdm gimp git gnome-desktop \
-gnome-tweak-tool grep grub gvim hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl python-pip powertop \
-python ruby sshd texmaker unzip vlc wget
-
+gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim hunspell-en \
+hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml \
+otf-overpass perl python-pip powertop python ruby sshd texmaker unzip vlc wget
 
 (
 echo "1"
 echo "1"
 echo "Y") | pacman -S virtualbox-guest-utils virtualbox
 modprobe vboxdrv
+
 # atom - text editor
 # bash-completion - makes autocomplete better
 # cronie - used for crone jobs
@@ -131,6 +126,4 @@ modprobe vboxdrv
 mv /powertopUSB.service /etc/systemd/system/powertopUSB.service
 mv /powertopUSB /usr/bin/
 chmod +x /usr/bin/powertopUSB
-
-#enable
 systemctl enable powertopUSB.service

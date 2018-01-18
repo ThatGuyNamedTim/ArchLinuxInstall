@@ -4,10 +4,10 @@
 # environment
 # https://wiki.archlinux.org/index.php/installation_guide
 # https://www.youtube.com/watch?v=iF7Y8IH5A3M
+
 # User Input ##################################################################
 
 # Internet Connection
-
 if !(ping -c 2 google.com > /dev/null)
 then
   echo "Please connect to the internet before running this script"
@@ -18,7 +18,6 @@ fi
 lsblk
 echo -e
 read -p "Drive to install arch linux on: " drive
-export drive
 read -p "Is this drive a ssd (y/n): " ssd
 export ssd
 read -p "Does this machine have an intel cpu (y/n): " intelCPU
@@ -26,13 +25,10 @@ export intelCPU
 
 # Will there be a swap space, if so size
 read -p "Swap space (y/n): " swapChoice
-export swapChoice
-
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
 then
   read -p "Swap space size in terms of GiB (Ex: 8): " swapSpace
 fi
-export swapSpace
 
 # Enter Location
 ls /usr/share/zoneinfo
@@ -91,7 +87,6 @@ bootPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
-export bootPartitionID
 export encryptedPartitionID
 # Encrpt it
 
@@ -144,7 +139,8 @@ pacstrap /mnt base base-devel
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Run personalize to share variables and download
+# Run personalize to share variables collected in this script and download
+# necessary files 
 wget -O rootPersonalize.sh -q https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh
 mv rootPersonalize.sh /mnt
 arch-chroot /mnt chmod +x ./rootPersonalize.sh
