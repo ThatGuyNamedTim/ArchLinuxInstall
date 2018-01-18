@@ -59,11 +59,11 @@ then
   echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options cryptdevice=UUID=$(blkid -s PARTUUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
+echo "options cryptdevice=UUID=$(blkid -s UUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
 
-echo "default arch" > /boot/loader/loader.conf
-echo "timeout 3" >> /boot/loader/loader.conf
-echo "editor 0" >> /boot/loader/loader.conf
+# echo "default arch" > /boot/loader/loader.conf
+# echo "timeout 3" >> /boot/loader/loader.conf
+# echo "editor 0" >> /boot/loader/loader.conf
 
 
 
@@ -76,7 +76,7 @@ systemctl enable NetworkManager.service
 echo "2"
 echo "1"
 echo "Y") | pacman -S atom
-
+echo "Y" | pacmsn -S linux-headers
 yes | pacman -Syu bash-completion cronie curl dconf dconf-editor flashplugin \
 gcc gdm gimp git gnome-desktop \
 gnome-tweak-tool grep grub gvim hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mono ntp ocaml otf-overpass perl python-pip powertop \
@@ -106,6 +106,7 @@ modprobe vboxdrv
 # hunspell-en - for spelling/grammar
 # hyphen-en - for spelling/grammar
 # libreoffice - text editor suite
+# linux-headers - for kernel
 # linux-lts - the long term support kernel version
 # linux-lts-headers - the long term support kernel version
 # mono - compiler
