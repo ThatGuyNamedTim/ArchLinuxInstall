@@ -14,7 +14,7 @@ fi
 
 git clone https://aur.archlinux.org/yaourt.git
 cd yaourt
-makepkg -sic
+echo "y" | makepkg -sic
 cd ..
 rm -rf yaourt
 yes 1 | yaourt --noconfirm google-chrome
@@ -53,7 +53,6 @@ ln -s ~/Downloads ~/Desktop/Downloads
 gio set ~/Desktop/Downloads metadata::custom-icon \
 file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
 
-gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'
 
 
 # Set up github
@@ -120,6 +119,8 @@ dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides "{'Gtk/ShellS
 dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show battery percentage top bar
 
 dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side of windows
+
+gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'
 
 rm .vimrc
 wget wget -O ~/.vimrc personalize.sh \

@@ -15,6 +15,7 @@ then
 fi
 
 # Select the drive to install arch on
+read -p "PLEASE DO NOT MAKE TYPOS BECAUSE THIS SCRIPT ASSUMES ALL USER INPUT IS CORRECT (press enter when understood)" confirm
 lsblk
 echo -e
 read -p "Drive to install arch linux on: " drive
@@ -91,14 +92,12 @@ export encryptedPartitionID
 # Encrpt it
 
 echo $'\n\n\n\n\n'
-echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK
-ENCRYPTION!!!!'
+echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 echo
 cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
 
 echo $'\n\n\n\n\n'
-echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK
-ENCRYPTION!!!!'
+echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 echo
 cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
@@ -128,8 +127,7 @@ then
   swapon /dev/mapper/vol-swap
 fi
 echo $'\n\n\n\n\n'
-echo "THERE MAY BE NO OUTPUT FOR AWHILE DUE TO GENERATING A MIRRORLIST
-AND THIS TAKES SOME TIME"
+echo "THERE MAY BE NO OUTPUT FOR AWHILE DUE TO GENERATING A MIRRORLIST AND THIS TAKES SOME TIME"
 # Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.backup

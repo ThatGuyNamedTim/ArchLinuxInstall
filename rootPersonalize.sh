@@ -58,9 +58,7 @@ then
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 
-echo "options cryptdevice=UUID=$(blkid -s UUID -o value \
-/dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" \
->> /boot/loader/entries/arch.conf
+echo "options cryptdevice=UUID=$(blkid -s UUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
 
 # The networking
 yes | pacman -S networkmanager
@@ -125,6 +123,7 @@ modprobe vboxdrv
 
 # GNOME
 systemctl enable gdm,service
+pacman -R empathy
 
 # USB fix with powertop
 mv /powertopUSB.service /etc/systemd/system/powertopUSB.service
