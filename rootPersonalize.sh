@@ -65,21 +65,18 @@ yes | pacman -S networkmanager
 systemctl enable NetworkManager.service
 
 # Downloads
-(
-echo "2"
-echo "1"
-echo "Y") | pacman -S atom
-echo "Y" | pacman -S linux-headers
-pacman -Syu --noconfirm bash-completion bumblebee cronie curl dconf dconf-editor \
-firefox flashplugin gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim \
-hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mesa mono ntp \
-ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker unzip \
-vlc wget xf86-video-intel xf86-video-nouveau xorg
 
-(
-echo "1"
-echo "1"
-echo "Y") | pacman -S virtualbox-guest-utils virtualbox
+pacman -Syu --noconfirm atom bash-completion cronie curl dconf dconf-editor \
+firefox flashplugin gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim \
+hunspell-en hyphen-en libreoffice-fresh linux-headers linux-lts linux-lts-headers mono ntp \
+ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker unzip \
+vlc virtualbox-guest-utils virtualbox wget xorg
+
+if [ "$nvidiaCard" == "y" ] || [ "$nvidiaCard" == "y" ]
+then
+  pacman -Syu --noconfirm bumblebee mesa nvidia xf86-video-intel lib32-virtualgl
+  lib32-nvidia-utils
+fi
 
 # atom - text editor
 # bash-completion - makes autocomplete better

@@ -31,6 +31,9 @@ then
   read -p "Swap space size in terms of GiB (Ex: 8): " swapSpace
 fi
 
+read -p "Does this have intel graphics and nvidia (y/n): " nvidiaCard
+export nvidiaCard
+
 # Enter Location
 ls /usr/share/zoneinfo
 read -p "Enter Location (As listed): " loc1
@@ -155,4 +158,4 @@ https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/powert
 mv powertopUSB /mnt
 
 arch-chroot /mnt ./rootPersonalize.sh
-rm /rootPersonalize.sh
+rm /mnt/rootPersonalize.sh
