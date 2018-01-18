@@ -74,7 +74,7 @@ pacman -Syu --noconfirm bash-completion bumblebee cronie curl dconf dconf-editor
 firefox flashplugin gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim \
 hunspell-en hyphen-en libreoffice-fresh linux-lts linux-lts-headers mesa mono ntp \
 ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker unzip \
-vlc wget xf86-video-intel xorg
+vlc wget xf86-video-intel xf86-video-nouveau xorg
 
 (
 echo "1"
@@ -121,6 +121,8 @@ echo "Y") | pacman -S virtualbox-guest-utils virtualbox
 # virtualbox - guest-utils - a tool for virtual machines
 # vlc - media player
 # wget - tool to download
+# xf86-video-intel - intel graphics
+# xf86-video-nouveau - nvidia graphics
 # xorg - dispay service
 
 gpasswd -a user bumblebee
