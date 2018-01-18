@@ -33,6 +33,7 @@ chmod u+x userPersonalize.sh
 ./userPersonalize.sh
 rm userPersonalize.sh
 ```
+  * note if installing in a virtual machine with limited RAM or swap space you will need to edit //etc/yaourtrc to use a different TMPDIR to prevent running out of space
 <br />
 <br />
 ____

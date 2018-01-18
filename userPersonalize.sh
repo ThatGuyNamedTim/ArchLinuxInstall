@@ -11,12 +11,17 @@ then
   read -p "github email: " githubEmail
 fi
 # Install packages from the AUR
+git clone https://aur.archlinux.org/package-query.git
+cd 'package-query'
+yes "Y"  | makepkg -sic
+cd ..
+rm -rf ./'package-query'
 
 git clone https://aur.archlinux.org/yaourt.git
 cd yaourt
-echo "y" | makepkg -sic
+yes "Y" | makepkg -sic
 cd ..
-rm -rf yaourt
+rm -rf ./yaourt
 yes 1 | yaourt --noconfirm google-chrome
 yes 1 | yaourt --noconfirm papirus-icon-theme-git
 yes 1 | yaourt --noconfirm papirus-folders-git
@@ -52,6 +57,10 @@ file:///usr/share/icons/Papirus/48x48/places/folder-black-documents.svg
 ln -s ~/Downloads ~/Desktop/Downloads
 gio set ~/Desktop/Downloads metadata::custom-icon \
 file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
+
+ln -s ~ ~/Desktop/Home
+gio set ~/Desktop/Downloads metadata::custom-icon \
+file:///usr/share/icons/Papirus/48x48/places/user-black-home.svg
 
 
 
@@ -105,9 +114,6 @@ dconf write /org/gnome/desktop/wm/preferences/focus-mode "'click'" # for focusin
 dconf write /org/gnome/desktop/interface/gtk-theme "'Arc-Darker'" # Set application theeme
 dconf write /org/gnome/desktop/interface/cursor-theme "'capitaine-cursors'" # Set cursor theme
 dconf write /org/gnome/desktop/interface/icon-theme "'Papirus'" # Set the icon theme
-dconf write /org/gnome/desktop/background/show-desktop-icons true # show desktop theeme
-dconf write /org/gnome/nautilus/preferences/search-filter-time-type "'last_modified'"
-dconf write /org/gnome/nautilus/desktop/home-icon-visible true # Show home folder
 dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'" # Set fonts
 dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'"
 dconf write /org/gnome/desktop/interface/document-font-name "'Overpass 11'"

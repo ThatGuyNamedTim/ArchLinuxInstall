@@ -67,7 +67,7 @@ systemctl enable NetworkManager.service
 # Downloads
 
 pacman -Syu --noconfirm atom bash-completion cronie curl dconf dconf-editor \
-firefox flashplugin gcc gimp git gnome gnome-tweak-tool grep grub gvim \
+firefox flashplugin gcc gimp git grep grub gvim \
 hunspell-en hyphen-en libreoffice-fresh linux-headers linux-lts linux-lts-headers mono ntp \
 ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker ufw unzip \
 vlc virtualbox-guest-utils virtualbox wget xorg
@@ -76,6 +76,15 @@ if [ "$nvidiaCard" == "y" ] || [ "$nvidiaCard" == "Y" ]
 then
   pacman -Syu --noconfirm bumblebee mesa nvidia xf86-video-intel
 fi
+
+# INSTALL Gnome
+pacman -Syu --noconfirm adwaita-icon-theme baobab eog evince gdm gnome-calculator   \
+gnome-control-center gnome-dictionary gnome-disk-utility gnome-font-viewer \
+gnome-keyring gnome-screenshot gnome-session gnome-settings-daemon gnome-shell \
+gnome-system-monitor gnome-terminal gnome-themes-standard gnome-user-docs \
+grilo-plugins gucharmap gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp \
+gvfs-nfs gvfs-smb mousetweaks mutter nautilus networkmanager tracker tracker    \
+xdg-user-dirs-gtk yelp
 
 # atom - text editor
 # bash-completion - makes autocomplete better
@@ -124,6 +133,7 @@ fi
 
 gpasswd -a user bumblebee
 systemctl enable bumblebeed.service
+modprobe vboxdrv
 
 # Firewall
 systemctl start ufw.service
@@ -133,7 +143,6 @@ ufw default allow outgoing
 
 # GNOME
 systemctl enable gdm.service
-pacman -R empathy epiphany totem vino sushi
 
 # USB fix with powertop
 mv /powertopUSB.service /etc/systemd/system/powertopUSB.service
