@@ -81,7 +81,7 @@ fi
 pacman -Syu --noconfirm adwaita-icon-theme baobab eog evince gdm gnome-calculator   \
 gnome-control-center gnome-dictionary gnome-disk-utility gnome-font-viewer \
 gnome-keyring gnome-screenshot gnome-session gnome-settings-daemon gnome-shell \
-gnome-system-monitor gnome-terminal gnome-themes-standard gnome-user-docs \
+gnome-system-monitor gnome-terminal gnome-themes-standard gnome-tweak-tool gnome-user-docs \
 grilo-plugins gucharmap gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp \
 gvfs-nfs gvfs-smb mousetweaks mutter nautilus networkmanager tracker tracker    \
 xdg-user-dirs-gtk yelp
@@ -149,3 +149,11 @@ mv /powertopUSB.service /etc/systemd/system/powertopUSB.service
 mv /powertopUSB /usr/bin/
 chmod +x /usr/bin/powertopUSB
 systemctl enable powertopUSB.service
+
+# Get rid of avahi
+# rm -rf /usr/share/applications/bssh.desktop
+# rm -rf /usr/share/applications/avahi-discover.desktop
+# rm -rf /usr/share/applications/bvnc.desktop
+# ln -s /dev/null /etc/systemd/system/avahi-daemon.service
+# ln -s /dev/null /etc/systemd/system/avahi-daemon.socket
+# ln -s /dev/null /etc/systemd/system/dbus-org.freedesktop.Avahi.service

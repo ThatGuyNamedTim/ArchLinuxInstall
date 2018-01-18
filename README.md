@@ -26,7 +26,9 @@ chmod u+x install.sh
 umount -R /mnt
 reboot -n
 ```
-* Login to the system and run the user personalize if desired
+* Login to the system and run the user personalize if desired. Before running
+the script, open a terminal, go to Edit>ProfilePreferences and change the
+profile name to one-dark
 ```
 wget -O userPersonalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/userPersonalize.sh
 chmod u+x userPersonalize.sh

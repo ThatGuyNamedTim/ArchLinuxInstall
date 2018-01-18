@@ -26,7 +26,7 @@ yes 1 | yaourt --noconfirm google-chrome
 yes 1 | yaourt --noconfirm papirus-icon-theme-git
 yes 1 | yaourt --noconfirm papirus-folders-git
 papirus-folders -C black
-yes 1 | yaourt --noconfirm gtk-theme-arc-grey
+yes 1 | yaourt --noconfirm gtk-theme-arc-git
 yes 1 |  yaourt --noconfirm ttf-ms-fonts
 
 yes 1 | yaourt --noconfirm capitaine-cursors
@@ -44,24 +44,6 @@ sudo rm -f /usr/share/icons/capitaine-cursors/cursors/size_ver
 # Font for microsoft
 # capitaine is a curosor
 # edit the cursor icons to look better
-
-# Create icons for the desktop
-ln -s ~/Pictures ~/Desktop/Pictures
-gio set ~/Desktop/Pictures metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/folder-black-pictures.svg
-
-ln -s ~/Documents ~/Desktop/Documents
-gio set ~/Desktop/Documents metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/folder-black-documents.svg
-
-ln -s ~/Downloads ~/Desktop/Downloads
-gio set ~/Desktop/Downloads metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
-
-ln -s ~ ~/Desktop/Home
-gio set ~/Desktop/Downloads metadata::custom-icon \
-file:///usr/share/icons/Papirus/48x48/places/user-black-home.svg
-
 
 
 # Set up github
@@ -119,6 +101,12 @@ dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Overpass 12'"
 dconf write /org/gnome/desktop/interface/document-font-name "'Overpass 11'"
 dconf write /org/gnome/desktop/interface/monospace-font-name "'Overpass Mono 11'"
 
+dconf write /org/gnome/desktop/background/show-desktop-icons true # show desktop icons
+dconf write /org/gnome/nautilus/desktop/home-icon-visible false # home not visible
+dconf write /org/gnome/nautilus/desktop/network-icon-visible false # network not visible
+dconf write /org/gnome/nautilus/desktop/trash-icon-visible false #trash not visible
+
+
 dconf write /org/gnome/desktop/peripherals/touchpad/disable-while-typing true # no trackpad when typing
 
 dconf write /org/gnome/settings-daemon/plugins/xsettings/overrides "{'Gtk/ShellShowsAppMenu': <1>}" # Show application menu top bar
@@ -126,11 +114,31 @@ dconf write /org/gnome/desktop/interface/show-battery-percentage true # Show bat
 
 dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'" # Right side of windows
 
+
+# Set open terminal as control+space
+dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding "'<Primary>space'"
+dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name "'terminal'"
+dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command "'gnome-terminal'"
+dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+
+
+
 gsettings set org.gnome.nautilus.icon-view default-zoom-level 'standard'
 
+# Vim
 rm .vimrc
 wget wget -O ~/.vimrc personalize.sh \
 https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/.vimrc
+
+
+# Create icons for the desktop
+ln -s ~/Documents ~/Desktop/Documents
+gio set ~/Desktop/Documents metadata::custom-icon \
+file:///usr/share/icons/Papirus/48x48/places/folder-black-documents.svg
+
+ln -s ~/Downloads ~/Desktop/Downloads
+gio set ~/Desktop/Downloads metadata::custom-icon \
+file:///usr/share/icons/Papirus/48x48/places/folder-black-download.svg
 
 # DO TO AFTER INSTALL
   # Change terminal theme first col to #282C34
