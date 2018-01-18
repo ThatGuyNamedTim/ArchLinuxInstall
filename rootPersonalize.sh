@@ -13,7 +13,7 @@ ln -sf $location /etc/localtime
 hwclock --systohc --utc
 
 # Set Hostname
-echo "arch" > /etc/hostname
+echo "$hostname" > /etc/hostname
 
 # Add hooks that are required by dm-crypt
 for i in $( grep -nr "block" /etc/mkinitcpio.conf | cut -d":" -f1 )
@@ -40,17 +40,16 @@ echo "YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR $username"
 echo
 passwd $username
 
-# Wheel group for amy command and need root password for sudo commands
+# Set wheel group for amy command and need root password for certain commands
 sed -i 's/^#\s%wheel\sALL=(ALL)\sALL$/%wheel ALL=(ALL) ALL/g' /etc/sudoers
 echo "Defaults rootpw" >> /etc/sudoers
-
 
 # Set up arch linux boot
 bootctl install
 echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 
-# Enable Intel microcode updates
+# Enable intel microcode updates
 if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "Y" ]
 then
   yes|pacman -S intel-ucode
@@ -65,7 +64,6 @@ yes | pacman -S networkmanager
 systemctl enable NetworkManager.service
 
 # Downloads
-
 pacman -Syu --noconfirm atom bash-completion cronie curl dconf dconf-editor \
 firefox flashplugin gcc gimp git grep grub gvim \
 hunspell-en hyphen-en libreoffice-fresh linux-headers linux-lts linux-lts-headers mono ntp \
@@ -77,7 +75,7 @@ then
   pacman -Syu --noconfirm bumblebee mesa nvidia xf86-video-intel
 fi
 
-# INSTALL Gnome
+# install gnome
 pacman -Syu --noconfirm adwaita-icon-theme baobab eog evince gdm gnome-calculator   \
 gnome-control-center gnome-dictionary gnome-disk-utility gnome-font-viewer \
 gnome-keyring gnome-screenshot gnome-session gnome-settings-daemon gnome-shell \
@@ -151,9 +149,9 @@ chmod +x /usr/bin/powertopUSB
 systemctl enable powertopUSB.service
 
 # Get rid of avahi
-# rm -rf /usr/share/applications/bssh.desktop
-# rm -rf /usr/share/applications/avahi-discover.desktop
-# rm -rf /usr/share/applications/bvnc.desktop
-# ln -s /dev/null /etc/systemd/system/avahi-daemon.service
-# ln -s /dev/null /etc/systemd/system/avahi-daemon.socket
-# ln -s /dev/null /etc/systemd/system/dbus-org.freedesktop.Avahi.service
+rm -rf /usr/share/applications/bssh.desktop
+rm -rf /usr/share/applications/avahi-discover.desktop
+rm -rf /usr/share/applications/bvnc.desktop
+ln -s /dev/null /etc/systemd/system/avahi-daemon.service
+ln -s /dev/null /etc/systemd/system/avahi-daemon.socket
+ln -s /dev/null /etc/systemd/system/dbus-org.freedesktop.Avahi.service

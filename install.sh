@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# This will install Arch Linux for an EFI system with gdm and the gnome desktop
-# environment with an nvidia graphics card
+# This will install Arch Linux for an EFI system with the gnome desktop environment
+# For reference:
 # https://wiki.archlinux.org/index.php/installation_guide
 # https://www.youtube.com/watch?v=iF7Y8IH5A3M
 
@@ -14,8 +14,10 @@ then
   exit
 fi
 
-# Select the drive to install arch on
+# Inform user
 read -p "PLEASE DO NOT MAKE TYPOS BECAUSE THIS SCRIPT ASSUMES ALL USER INPUT IS CORRECT (press enter when understood)" confirm
+
+# Select the drive to install arch on
 lsblk
 echo -e
 read -p "Drive to install arch linux on: " drive
@@ -24,7 +26,7 @@ export ssd
 read -p "Does this machine have an intel cpu (y/n): " intelCPU
 export intelCPU
 
-# Will there be a swap space, if so size
+# Swap space size
 read -p "Swap space (y/n): " swapChoice
 if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "Y" ]
 then
@@ -46,17 +48,23 @@ then
 fi
 export location
 
+# Enter username
 read -p "Username: " username
 export username
 
+# Enter hostname
+read -p "Hostname: " hostname
+export hostname
+
+
 # Instalation #################################################################
+
 # Disk Partition with LVM on LUKS with dm-crypt #######
 # https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS
 # First Parition: EFI
-# Second Partition (Optional): Encrpted partition
+# Second Partition: Encrpted partition
 
-# Find number of partitions to delete
-# Clear Table
+# Clear partition table
 (
 echo "o" # clear
 echo "Y" # confirm
@@ -75,7 +83,7 @@ echo "w" # write changes
 echo "Y" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
-# Encrypted Partition
+# Encrypted partition
 (
 echo "n" # new patition
 echo # default partition number
@@ -86,25 +94,24 @@ echo "w" # write changes
 echo "Y" # confirm
 ) | gdisk /dev/$drive > /dev/null
 
-# Use lsblk to find the partition IDs (could be sda or nvme0n1)
+# Use lsblk to find the partition IDs
 bootPartitionID=$(lsblk  | grep $drive | sed -n 2p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 encryptedPartitionID=$(lsblk | grep $drive | sed -n 3p | grep $drive \
                                       | cut -d" " -f1 | sed "s/[^0-9a-zA-Z]//g")
 export encryptedPartitionID
-# Encrpt it
 
+# Encrpt it
 echo $'\n\n\n\n\n'
 echo 'YOU ARE NOW BEING PROMPTED TO SET YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 echo
 cryptsetup luksFormat --type luks2 /dev/$encryptedPartitionID
-
 echo $'\n\n\n\n\n'
 echo 'YOU ARE NOW BEING PROMPTED TO ENTER YOUR PASSWORD FOR THE DISK ENCRYPTION!!!!'
 echo
 cryptsetup open /dev/$encryptedPartitionID encryptedVol
 
-# Create the root and swap if necesarry
+# Create the root and swap if requested
 pvcreate /dev/mapper/encryptedVol
 vgcreate vol /dev/mapper/encryptedVol
 
@@ -113,7 +120,6 @@ then
   lvcreate -L ${swapSpace}G vol -n swap
   mkswap /dev/mapper/vol-swap
 fi
-
 lvcreate -l 100%FREE vol -n root
 
 # Format the partitions and mount
@@ -129,9 +135,11 @@ if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "Y" ]
 then
   swapon /dev/mapper/vol-swap
 fi
+
+
+# Set up the mirrors for downloads #######
 echo $'\n\n\n\n\n'
 echo "THERE MAY BE NO OUTPUT FOR AWHILE DUE TO GENERATING A MIRRORLIST AND THIS TAKES SOME TIME"
-# Set up the mirrors for downloads #######
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.backup
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
@@ -143,7 +151,7 @@ pacstrap /mnt base base-devel
 # Generate fstab for system configuration #######
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Run personalize to share variables collected in this script and download
+# Run personalize.sh to share variables collected in this script and download
 # necessary files
 wget -O rootPersonalize.sh \
 https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/rootPersonalize.sh

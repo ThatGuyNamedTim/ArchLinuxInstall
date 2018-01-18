@@ -1,6 +1,6 @@
-syntax on
-let g:onedark_termcolors=16
-colorscheme onedark
+syntax on "improves colors
+let g:onedark_termcolors=16 "colors
+colorscheme onedark "theme
 command W w "allow caps
 command Wq wq "allow caps
 command WQ wq "allow caps

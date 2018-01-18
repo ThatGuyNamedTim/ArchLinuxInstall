@@ -21,21 +21,22 @@ wget -O install.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxIn
 chmod u+x install.sh
 ./install.sh
 ```
-* Unmount the Install and reboot (after rebooting, the USB be removed)
+* Unmount the Install and reboot (after rebooting, the USB can be removed)
 ```
 umount -R /mnt
 reboot -n
 ```
 * Login to the system and run the user personalize if desired. Before running
-the script, open a terminal, go to Edit>ProfilePreferences and change the
+the script, open a terminal, go to Edit>Profile Preferences and change the
 profile name to one-dark
+  * To open a terminal press the super key and search for terminal
 ```
 wget -O userPersonalize.sh https://raw.githubusercontent.com/ThatGuyNamedTim/ArchLinuxInstall/master/userPersonalize.sh
 chmod u+x userPersonalize.sh
 ./userPersonalize.sh
 rm userPersonalize.sh
 ```
-  * note if installing in a virtual machine with limited RAM or swap space you will need to edit //etc/yaourtrc to use a different TMPDIR to prevent running out of space
+  * Note if installing in a virtual machine with limited RAM or swap space you will need to edit //etc/yaourtrc to use a different TMPDIR to prevent running out of space
 <br />
 <br />
 ____
@@ -50,8 +51,8 @@ ____
 * Format the partitions
     * The EFI   
     * The Encrypted drive
-      * root
-      * swap
+      * Reboot
+      * Swap
 * Mount partitions
 * Set up mirrors
 * Install base packages  

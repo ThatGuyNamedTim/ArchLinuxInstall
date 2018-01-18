@@ -1,4 +1,4 @@
-# This will run powertopUSB on start
+# This will run powertopUSB on start up
 [Unit]
 Description=Powertop USB tunings
 
