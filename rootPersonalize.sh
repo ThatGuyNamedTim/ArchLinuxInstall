@@ -23,7 +23,7 @@ done
 mkinitcpio -p linux
 
 # Set trim, for SSDs
-if [ "$ssd" == "y" ] || [ "$ssd" == "y" ]
+if [ "$ssd" == "y" ] || [ "$ssd" == "Y" ]
 then
   systemctl enable fstrim.timer > /dev/null
 fi
@@ -51,7 +51,7 @@ echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 
 # Enable Intel microcode updates
-if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "y" ]
+if [ "$intelCPU" == "y" ] || [ "$intelCPU" == "Y" ]
 then
   yes|pacman -S intel-ucode
   echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch.conf
@@ -67,15 +67,14 @@ systemctl enable NetworkManager.service
 # Downloads
 
 pacman -Syu --noconfirm atom bash-completion cronie curl dconf dconf-editor \
-firefox flashplugin gcc gdm gimp git gnome-desktop gnome-tweak-tool grep grub gvim \
+firefox flashplugin gcc gimp git gnome gnome-tweak-tool grep grub gvim \
 hunspell-en hyphen-en libreoffice-fresh linux-headers linux-lts linux-lts-headers mono ntp \
-ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker unzip \
+ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker ufw unzip \
 vlc virtualbox-guest-utils virtualbox wget xorg
 
-if [ "$nvidiaCard" == "y" ] || [ "$nvidiaCard" == "y" ]
+if [ "$nvidiaCard" == "y" ] || [ "$nvidiaCard" == "Y" ]
 then
-  pacman -Syu --noconfirm bumblebee mesa nvidia xf86-video-intel lib32-virtualgl
-  lib32-nvidia-utils
+  pacman -Syu --noconfirm bumblebee mesa nvidia xf86-video-intel
 fi
 
 # atom - text editor
@@ -113,6 +112,7 @@ fi
 # python - programming language
 # ruby - programming language
 # texmaker - for LaTeX
+# ufw - uncomplicated firewall
 # unzip - command to unzip
 # virtualbox - a virtual machine tool
 # virtualbox - guest-utils - a tool for virtual machines
@@ -125,8 +125,15 @@ fi
 gpasswd -a user bumblebee
 systemctl enable bumblebeed.service
 
+# Firewall
+systemctl start ufw.service
+systemctl enable ufw.service
+ufw default deny incoming
+ufw default allow outgoing
+
 # GNOME
 systemctl enable gdm.service
+pacman -R empathy epiphany totem vino sushi
 
 # USB fix with powertop
 mv /powertopUSB.service /etc/systemd/system/powertopUSB.service

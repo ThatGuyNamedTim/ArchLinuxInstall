@@ -26,7 +26,7 @@ export intelCPU
 
 # Will there be a swap space, if so size
 read -p "Swap space (y/n): " swapChoice
-if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
+if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "Y" ]
 then
   read -p "Swap space size in terms of GiB (Ex: 8): " swapSpace
 fi
@@ -108,7 +108,7 @@ cryptsetup open /dev/$encryptedPartitionID encryptedVol
 pvcreate /dev/mapper/encryptedVol
 vgcreate vol /dev/mapper/encryptedVol
 
-if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
+if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "Y" ]
 then
   lvcreate -L ${swapSpace}G vol -n swap
   mkswap /dev/mapper/vol-swap
@@ -125,7 +125,7 @@ mkdir /mnt/boot
 mount /dev/$bootPartitionID /mnt/boot
 
 # Swap if the user wanted one
-if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "y" ]
+if [ "$swapChoice" == "y" ] || [ "$swapChoice" == "Y" ]
 then
   swapon /dev/mapper/vol-swap
 fi
