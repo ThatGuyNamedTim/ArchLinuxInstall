@@ -57,7 +57,7 @@ then
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 
-echo "options cryptdevice=UUID=$(blkid -s UUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
+echo "options rw cryptdevice=UUID=$(blkid -s UUID -o value /dev/$encryptedPartitionID):encryptedVol root=/dev/mapper/vol-root" >> /boot/loader/entries/arch.conf
 
 # The networking
 yes | pacman -S networkmanager
@@ -72,7 +72,7 @@ vlc virtualbox-guest-utils virtualbox wget xorg
 
 if [ "$nvidiaCard" == "y" ] || [ "$nvidiaCard" == "Y" ]
 then
-  pacman -Syu --noconfirm bumblebee mesa nvidia xf86-video-intel
+  pacman -Syu --noconfirm mesa nvidia xf86-video-intel
 fi
 
 # install gnome
@@ -86,7 +86,6 @@ xdg-user-dirs-gtk yelp
 
 # atom - text editor
 # bash-completion - makes autocomplete better
-# bumblebee - for nvidia
 # cronie - used for cron jobs
 # curl - tool to download
 # dconf - tool for settings
@@ -129,15 +128,13 @@ xdg-user-dirs-gtk yelp
 # xf86-video-nouveau - nvidia graphics
 # xorg - dispay service
 
-gpasswd -a user bumblebee
-systemctl enable bumblebeed.service
 modprobe vboxdrv
 
 # Firewall
-systemctl start ufw.service
-systemctl enable ufw.service
 ufw default deny incoming
 ufw default allow outgoing
+ufw enable
+systemctl enable ufw.service
 
 # GNOME
 systemctl enable gdm.service
