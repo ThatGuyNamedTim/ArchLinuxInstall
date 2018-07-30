@@ -23,12 +23,16 @@ cd yaourt
 yes "Y" | makepkg -sic
 cd ..
 rm -rf ./yaourt
-yes 1 | yaourt --noconfirm google-chrome
 yes 1 | yaourt --noconfirm papirus-icon-theme-git
 yes 1 | yaourt --noconfirm papirus-folders-git
 papirus-folders -C black
-yes 1 | yaourt --noconfirm gtk-theme-arc-git
 yes 1 |  yaourt --noconfirm ttf-ms-fonts
+git clone https://github.com/horst3180/arc-theme --depth 1 && cd arc-theme
+./autogen.sh --prefix=/usr
+sudo make install
+cd ..
+rm -rf arc-theme
+
 
 yes 1 | yaourt --noconfirm capitaine-cursors
 # Yaourt is a manager for the AUR

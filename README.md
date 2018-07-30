@@ -44,6 +44,7 @@ ____
 
 ## Information on the Scripts
 ### Initial Instalation (install.sh)
+* If installiing on system with another OS already, you will need to delete the code that is refered to with:`# Clear partition table` and hardcode the values for bootPartitionID and encryptedPartitionID
 * **f12** to select bootable USB
 * Partition drive
 * Encrypt the drive with [dm-crypt]https://wiki.archlinux.org/index.php/dm-crypt

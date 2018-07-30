@@ -1,12 +1,11 @@
 syntax on "improves colors
-let g:onedark_termcolors=16 "colors
 colorscheme onedark "theme
+set termguicolors "for colors
 command W w "allow caps
 command Wq wq "allow caps
 command WQ wq "allow caps
 command Q q "allow caps
 
-syntax on "nice coloring of syntax
 set number "adds line numbers
 set expandtab "spaces for tabs
 set sw=4 "default to tabstop

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # This will install Arch Linux for an EFI system with the gnome desktop environment
 # For reference:
 # https://wiki.archlinux.org/index.php/installation_guide
@@ -17,6 +18,7 @@ fi
 # Inform user
 read -p "PLEASE DO NOT MAKE TYPOS BECAUSE THIS SCRIPT ASSUMES ALL USER INPUT IS CORRECT (press enter when understood)" confirm
 
+pacman -Syu --noconfirm pacman-contrib
 # Select the drive to install arch on
 lsblk
 echo -e

@@ -64,11 +64,11 @@ yes | pacman -S networkmanager
 systemctl enable NetworkManager.service
 
 # Downloads
-pacman -Syu --noconfirm atom bash-completion cronie curl dconf dconf-editor \
+pacman -Syu --noconfirm retext atom bash-completion cronie curl dconf dconf-editor \
 firefox flashplugin gcc gimp git grep grub gvim \
 hunspell-en hyphen-en libreoffice-fresh linux-headers linux-lts linux-lts-headers mono ntp \
 ocaml openssh otf-overpass perl python-pip powertop python ruby texmaker ufw unzip \
-vlc virtualbox-guest-utils virtualbox wget xorg
+vlc wget xorg
 
 if [ "$nvidiaCard" == "y" ] || [ "$nvidiaCard" == "Y" ]
 then
